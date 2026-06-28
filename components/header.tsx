@@ -91,7 +91,7 @@ export function Header() {
       <div className="max-w-[1440px] mx-auto h-[56px] md:h-[64px] px-2 md:px-4 lg:px-6 flex items-center justify-between w-full gap-2 md:gap-4 lg:gap-6 relative z-50 bg-white">
         
         {/* Left Section: Logo & Primary Nav */}
-        <div className={`items-center shrink-0 ${isMobileSearchOpen ? 'hidden sm:flex' : 'flex'}`}>
+        <div className={`items-center w-[160px] shrink-0 ${isMobileSearchOpen ? 'hidden sm:flex' : 'flex'}`}>
           <Link
             href="/"
             className="flex items-center gap-0.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4] rounded-lg pr-1"
