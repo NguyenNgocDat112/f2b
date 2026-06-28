@@ -1,0 +1,122 @@
+export const analysisNews = [
+  {
+    id: 101,
+    title: "Lộ trình chuyển ngành từ Marketing sang Data | Chia sẻ từ anh Nguyễn Viết Linh – Analysis Manager @ Highlands Coffee",
+    tags: ["CHUYỆN NGHỀ DATA ANALYSIS"],
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 102,
+    title: "Nếu một ngày không làm Marketing nữa thì làm gì? | Chia sẻ từ chị Hồng Anh – Harvard MBA Candidate, Class of 2027",
+    tags: ["BRAND MARKETING CHUYỆN NGHỀ DATA ANALYSIS"],
+    image: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 103,
+    title: "Ứng dụng AI trong việc tăng trưởng và giữ chân người dùng trên Mobile App | Chia sẻ từ anh Quốc Tiến – Marketing Manager @VietCap Securities",
+    tags: ["CHUYỆN NGHỀ DATA ANALYSIS DIGITAL MARKETING"],
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 104,
+    title: "Tăng trưởng doanh thu nhờ ứng dụng dữ liệu khách hàng trong ngành Food Delivery | Chia sẻ từ anh Đinh Ngữ – Managing Director @CloudEats",
+    tags: ["CHUYỆN NGHỀ DATA ANALYSIS"],
+    image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 105,
+    title: "Ứng dụng AI và Machine Learning để dự báo hành vi khách hàng | Chia sẻ từ anh Trường Giang – AI Engineer @Viettel",
+    tags: ["CHUYỆN NGHỀ DATA ANALYSIS KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 106,
+    title: "Xây dựng KPI chiến lược từ khung tư duy WWHTBT: Học từ case Olay Masstige Strategy",
+    tags: ["DATA ANALYSIS KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 107,
+    title: "Tổng hợp 8 nguồn học thống kê từ cơ bản đến nâng cao",
+    tags: ["DATA ANALYSIS KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 108,
+    title: "Tổng hợp nguồn Dataset chất lượng để thực hành phân tích dữ liệu và xây dựng Data Portfolio",
+    tags: ["DATA ANALYSIS KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1416331108676-a22ccb276e35?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 109,
+    title: "Phân tích dữ liệu trong Marketing: Đo lường hiệu quả chiến dịch | Chia sẻ từ chị Ngọc Lan - Performance Lead",
+    tags: ["DATA ANALYSIS", "PERFORMANCE MARKETING"],
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 110,
+    title: "Ứng dụng Python trong phân tích dữ liệu tài chính | Hướng dẫn từ A-Z với thư viện Pandas",
+    tags: ["TÀI CHÍNH", "PYTHON", "KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 111,
+    title: "SQL nâng cao: Tối ưu hóa truy vấn dữ liệu lớn cho Data Engineer | Case study thực tế",
+    tags: ["DATA ENGINEERING", "SQL", "KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 112,
+    title: "Trực quan hóa dữ liệu với Tableau: Storytelling through Data | Bí kíp thiết kế Dashboard",
+    tags: ["DATA VISUALIZATION", "TABLEAU"],
+    image: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 113,
+    title: "Chuyển từ Business Analyst sang Data Analyst: Cần chuẩn bị những gì? | Góc nhìn chuyên gia",
+    tags: ["CHUYỆN NGHỀ", "DATA ANALYSIS"],
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 114,
+    title: "A/B Testing trong Product Development: Cách thiết kế và đánh giá thực nghiệm chính xác",
+    tags: ["PRODUCT", "A/B TESTING"],
+    image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 115,
+    title: "Machine Learning cơ bản cho Data Analyst: Hiểu về Hồi quy tuyến tính (Linear Regression)",
+    tags: ["MACHINE LEARNING", "KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 116,
+    title: "Tại sao Data Quality quan trọng hơn Algorithm phức tạp? Bài học từ các dự án thực tế",
+    tags: ["DATA QUALITY", "CHUYỆN NGHỀ"],
+    image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 117,
+    title: "Khai thác dữ liệu người dùng (Customer Analytics) để tối ưu hóa trải nghiệm khách hàng",
+    tags: ["CUSTOMER ANALYTICS", "DATA ANALYSIS"],
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 118,
+    title: "Giới thiệu về RFM Model: Phân loại khách hàng tiềm năng dựa trên hành vi mua hàng",
+    tags: ["MARKETING", "MÔ HÌNH HÓA"],
+    image: "https://images.unsplash.com/photo-1416331108676-a22ccb276e35?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 119,
+    title: "Excel nâng cao cho Data Analyst: Sử dụng Power Query và Power Pivot như một chuyên gia",
+    tags: ["EXCEL", "KIẾN THỨC"],
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=100&w=1200&h=800",
+  },
+  {
+    id: 120,
+    title: "Cơ hội nghề nghiệp ngành Data Analytics năm 2026: Xu hướng tuyển dụng và mức lương",
+    tags: ["CHUYỆN NGHỀ", "CAREER"],
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=100&w=1200&h=800",
+  }
+];

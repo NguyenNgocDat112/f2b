@@ -1,0 +1,6 @@
+{
+  "name": "MatHub",
+  "description": "MatHub - Giải pháp cung ứng Vật liệu xây dựng thông minh hàng đầu",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
