@@ -52,7 +52,7 @@ export function PartnerHero() {
                 element.scrollIntoView({ behavior: "smooth", block: "start" });
               }
             }}
-            className="inline-flex justify-center items-center bg-gray-900 hover:bg-[#cc2424] text-white font-bold text-[12px] sm:text-[13px] tracking-wider px-8 py-3.5 sm:px-7 sm:py-3.5 rounded-[14px] sm:rounded-xl transition-all duration-300 shadow-sm hover:-translate-y-0.5 active:translate-y-0 select-none uppercase"
+            className="inline-flex justify-center items-center bg-gray-900 hover:bg-[#cc2424] text-white font-bold text-[12px] sm:text-[13px] tracking-wider px-8 py-3.5 sm:px-7 sm:py-3.5 rounded-[4px] sm:rounded-xl transition-all duration-300 shadow-sm hover:-translate-y-0.5 active:translate-y-0 select-none uppercase"
           >
             Đăng Ký Đối Tác Ngay
           </button>

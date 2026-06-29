@@ -91,7 +91,7 @@ function ProductsContent() {
 
   // Top Dropdowns State
   const [openDropdown, setOpenDropdown] = useState<
-    "roles" | "models" | "locations" | null
+    "roles" | "models" | "locations" | "sort" | null
   >(null);
   const [modelSearch, setModelSearch] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
@@ -109,7 +109,7 @@ function ProductsContent() {
       setSelectedSubCategory(subCategoryParam);
       setSelectedNhom(nhomParam);
       setSelectedSanPham(sanPhamParam);
-      setSearchQuery(queryParam);
+      setSearchQuery("");
       setCurrentPage(1);
     }, 0);
 
@@ -383,13 +383,38 @@ function ProductsContent() {
     selectedLocations,
   ]);
 
+  // Sorted Suppliers List
+  const sortedSuppliers = useMemo(() => {
+    const list = [...filteredSuppliers];
+    if (sortOption === "Bán chạy") {
+      return list.sort((a, b) => b.reviews - a.reviews);
+    }
+    if (sortOption === "Mới nhất") {
+      return list.sort((a, b) => {
+        const estA = typeof a.established === 'number' ? a.established : parseInt(String(a.established)) || 0;
+        const estB = typeof b.established === 'number' ? b.established : parseInt(String(b.established)) || 0;
+        return estB - estA;
+      });
+    }
+    if (sortOption === "Giá thấp đến cao") {
+      return list.sort((a, b) => a.rating - b.rating || a.id - b.id);
+    }
+    if (sortOption === "Giá cao đến thấp") {
+      return list.sort((a, b) => b.rating - a.rating || b.id - a.id);
+    }
+    if (sortOption === "%Giảm giá nhiều") {
+      return list.sort((a, b) => (b.isVerified ? 1 : 0) - (a.isVerified ? 1 : 0));
+    }
+    return list; // Mặc định
+  }, [filteredSuppliers, sortOption]);
+
   // Paginated Suppliers List
   const paginatedSuppliers = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredSuppliers.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredSuppliers, currentPage, itemsPerPage]);
+    return sortedSuppliers.slice(startIndex, startIndex + itemsPerPage);
+  }, [sortedSuppliers, currentPage, itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredSuppliers.length / itemsPerPage);
+  const totalPages = Math.ceil(sortedSuppliers.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -454,7 +479,7 @@ function ProductsContent() {
               <div className="hidden lg:flex flex-1 max-w-md relative group/search items-center justify-start">
                 <div className="relative w-full max-w-[320px]">
                   <Search
-                    className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/search:text-[#c81e51] transition-colors"
+                    className="w-[17px] h-[17px] absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/search:text-[#cc1a26] transition-colors"
                     strokeWidth={1.5}
                   />
                   <input
@@ -462,55 +487,67 @@ function ProductsContent() {
                     value={searchQuery}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
-                      setCurrentPage(1);
                     }}
                     placeholder="Tìm nhóm ngành..."
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-[8px] text-[14px] focus:outline-none focus:border-[#c81e51] focus:ring-1 focus:ring-[#c81e51]/20 transition-all placeholder:text-gray-400"
+                    className="w-full h-[38px] pl-9 pr-8 bg-white border border-gray-200 rounded-[4px] text-[13.5px] focus:outline-none focus:border-[#cc1a26] focus:ring-1 focus:ring-[#cc1a26]/20 transition-all placeholder:text-gray-400"
                   />
+                  {searchQuery && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setCurrentPage(1);
+                      }}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 hover:bg-gray-100 rounded-full text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </div>
 
-              {/* Sort & Filters Dropdown */}
-              <div className="flex items-center justify-end relative self-end sm:self-auto ml-auto">
-                <div className="relative isolate z-[60]">
+              {/* Top Filters & Sorting Dropdowns (Split into 4 Individual Parts as requested) */}
+              <div className="flex flex-wrap items-center justify-end gap-2 relative self-end sm:self-auto ml-auto z-30">
+                
+                {/* 2. VAI TRÒ DROPDOWN */}
+                <div className="relative">
                   <button
-                    onClick={() => setIsSortOpen(!isSortOpen)}
-                    className="bg-white border border-gray-200 hover:border-gray-300 transition-colors text-gray-700 text-[14px] px-3.5 py-2.5 rounded-[8px] flex items-center justify-between w-[220px] group shadow-none md:shadow-sm"
+                    onClick={() => setOpenDropdown(openDropdown === "roles" ? null : "roles")}
+                    className={`h-[38px] px-3.5 bg-white border rounded-[4px] flex items-center gap-2 group transition-all duration-150 text-[13.5px] font-medium select-none
+                      ${openDropdown === "roles" 
+                        ? "border-[#cc1a26] ring-2 ring-[#cc1a26]/10 bg-red-50/[0.02]" 
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/40 text-gray-700"
+                      }
+                      ${selectedRoles.length > 0 ? "border-[#cc1a26]/30 bg-red-50/[0.04] text-[#cc1a26]" : ""}
+                    `}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-gray-900 font-medium">
-                        Bộ lọc bổ sung
+                    <Award className={`w-3.5 h-3.5 transition-colors ${selectedRoles.length > 0 ? "text-[#cc1a26]" : "text-gray-400 group-hover:text-gray-500"}`} />
+                    <span>Vai trò</span>
+                    {selectedRoles.length > 0 && (
+                      <span className="bg-[#cc1a26] text-white text-[9px] font-bold font-mono px-1 rounded-full leading-none flex items-center justify-center min-w-[15px] h-3.5 shadow-[0_1px_3px_rgba(204,26,38,0.2)]">
+                        {selectedRoles.length}
                       </span>
-                    </div>
-                    <ChevronDown
-                      className={`w-4 h-4 text-gray-400 transition-transform duration-200 shrink-0 ${isSortOpen ? "rotate-180" : ""}`}
-                      strokeWidth={2}
-                    />
+                    )}
+                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${openDropdown === "roles" ? "rotate-180 text-gray-600" : "group-hover:text-gray-500"}`} />
                   </button>
 
                   <AnimatePresence>
-                    {isSortOpen && (
+                    {openDropdown === "roles" && (
                       <>
-                        <div
-                          className="fixed inset-0 z-10"
-                          onClick={() => setIsSortOpen(false)}
-                        />
+                        <div className="fixed inset-0 z-10" onClick={() => setOpenDropdown(null)} />
                         <motion.div
-                          initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                          className="absolute right-0 top-[calc(100%+6px)] w-[260px] bg-white rounded-[8px] shadow-none md:shadow-[0_12px_42px_rgba(0,0,0,0.12)] border border-gray-200 py-3.5 z-20 origin-top-right flex flex-col max-h-[75vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full"
+                          className="absolute right-0 top-[calc(100%+6px)] w-[240px] bg-white rounded-[4px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-gray-100 py-3 z-20 origin-top-right flex flex-col"
                         >
-
-                          {/* Vai trò Section Header */}
-                          <div className="px-4 py-1.5 flex items-center gap-2 mb-1">
-                            <div className="w-1 h-3.5 bg-[#cc1a26] rounded-full" />
+                          <div className="px-4 py-1.5 flex items-center gap-2 mb-1.5">
+                            <div className="w-[3px] h-3.5 bg-[#cc1a26] rounded-full" />
                             <span className="text-[12px] font-bold text-[#cc1a26] uppercase tracking-wider">
                               Vai trò
                             </span>
                           </div>
-                          <div className="flex flex-col px-2 gap-0.5 mb-3">
+                          <div className="flex flex-col px-2 gap-0.5 max-h-[300px] overflow-y-auto">
                             {MOCK_FILTER_DATA.roles.map((role) => {
                               const isChecked = selectedRoles.includes(role);
                               return (
@@ -520,7 +557,7 @@ function ProductsContent() {
                                   className={`flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-150 text-left w-full border-none group ${isChecked ? "bg-red-50/70" : "bg-transparent"}`}
                                 >
                                   <div
-                                    className={`relative flex items-center justify-center w-[18px] h-[18px] border rounded-[5px] transition-all duration-200 shrink-0 ${
+                                    className={`relative flex items-center justify-center w-[17px] h-[17px] border rounded-[4px] transition-all duration-200 shrink-0 ${
                                       isChecked
                                         ? "bg-[#cc1a26] border-[#cc1a26]"
                                         : "bg-white border-gray-300 group-hover:border-[#cc1a26]"
@@ -535,7 +572,7 @@ function ProductsContent() {
                                     </motion.div>
                                   </div>
                                   <span
-                                    className={`text-[14px] leading-tight select-none transition-colors duration-150 ${
+                                    className={`text-[13.5px] select-none transition-colors duration-150 ${
                                       isChecked
                                         ? "text-[#cc1a26] font-semibold"
                                         : "text-gray-600 group-hover:text-gray-900"
@@ -547,15 +584,52 @@ function ProductsContent() {
                               );
                             })}
                           </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
 
-                          {/* Mô hình Section Header */}
-                          <div className="px-4 py-1.5 flex items-center gap-2 border-t border-gray-100 pt-3 mb-1">
-                            <div className="w-1 h-3.5 bg-[#cc1a26] rounded-full" />
+                {/* 3. MÔ HÌNH DROPDOWN */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === "models" ? null : "models")}
+                    className={`h-[38px] px-3.5 bg-white border rounded-[4px] flex items-center gap-2 group transition-all duration-150 text-[13.5px] font-medium select-none
+                      ${openDropdown === "models" 
+                        ? "border-[#cc1a26] ring-2 ring-[#cc1a26]/10 bg-red-50/[0.02]" 
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/40 text-gray-700"
+                      }
+                      ${selectedModels.length > 0 ? "border-[#cc1a26]/30 bg-red-50/[0.04] text-[#cc1a26]" : ""}
+                    `}
+                  >
+                    <Building className={`w-3.5 h-3.5 transition-colors ${selectedModels.length > 0 ? "text-[#cc1a26]" : "text-gray-400 group-hover:text-gray-500"}`} />
+                    <span>Mô hình</span>
+                    {selectedModels.length > 0 && (
+                      <span className="bg-[#cc1a26] text-white text-[9px] font-bold font-mono px-1 rounded-full leading-none flex items-center justify-center min-w-[15px] h-3.5 shadow-[0_1px_3px_rgba(204,26,38,0.2)]">
+                        {selectedModels.length}
+                      </span>
+                    )}
+                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${openDropdown === "models" ? "rotate-180 text-gray-600" : "group-hover:text-gray-500"}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {openDropdown === "models" && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setOpenDropdown(null)} />
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                          className="absolute right-0 top-[calc(100%+6px)] w-[240px] bg-white rounded-[4px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-gray-100 py-3 z-20 origin-top-right flex flex-col"
+                        >
+                          <div className="px-4 py-1.5 flex items-center gap-2 mb-1.5">
+                            <div className="w-[3px] h-3.5 bg-[#cc1a26] rounded-full" />
                             <span className="text-[12px] font-bold text-[#cc1a26] uppercase tracking-wider">
                               Mô hình
                             </span>
                           </div>
-                          <div className="flex flex-col px-2 gap-0.5 mb-3">
+                          <div className="flex flex-col px-2 gap-0.5 max-h-[300px] overflow-y-auto">
                             {MOCK_FILTER_DATA.models.map((model) => {
                               const isChecked = selectedModels.includes(model);
                               return (
@@ -565,7 +639,7 @@ function ProductsContent() {
                                   className={`flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-150 text-left w-full border-none group ${isChecked ? "bg-red-50/70" : "bg-transparent"}`}
                                 >
                                   <div
-                                    className={`relative flex items-center justify-center w-[18px] h-[18px] border rounded-[5px] transition-all duration-200 shrink-0 ${
+                                    className={`relative flex items-center justify-center w-[17px] h-[17px] border rounded-[4px] transition-all duration-200 shrink-0 ${
                                       isChecked
                                         ? "bg-[#cc1a26] border-[#cc1a26]"
                                         : "bg-white border-gray-300 group-hover:border-[#cc1a26]"
@@ -580,7 +654,7 @@ function ProductsContent() {
                                     </motion.div>
                                   </div>
                                   <span
-                                    className={`text-[14px] leading-tight select-none transition-colors duration-150 ${
+                                    className={`text-[13.5px] select-none transition-colors duration-150 ${
                                       isChecked
                                         ? "text-[#cc1a26] font-semibold"
                                         : "text-gray-600 group-hover:text-gray-900"
@@ -592,56 +666,124 @@ function ProductsContent() {
                               );
                             })}
                           </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
 
-                          {/* Khu vực Section Header */}
-                          <div className="px-4 py-1.5 flex items-center gap-2 border-t border-gray-100 pt-3 mb-1">
-                            <div className="w-1 h-3.5 bg-[#cc1a26] rounded-full" />
+                {/* 4. KHU VỰC DROPDOWN */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === "locations" ? null : "locations")}
+                    className={`h-[38px] px-3.5 bg-white border rounded-[4px] flex items-center gap-2 group transition-all duration-150 text-[13.5px] font-medium select-none
+                      ${openDropdown === "locations" 
+                        ? "border-[#cc1a26] ring-2 ring-[#cc1a26]/10 bg-red-50/[0.02]" 
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/40 text-gray-700"
+                      }
+                      ${selectedLocations.length > 0 ? "border-[#cc1a26]/30 bg-red-50/[0.04] text-[#cc1a26]" : ""}
+                    `}
+                  >
+                    <MapPin className={`w-3.5 h-3.5 transition-colors ${selectedLocations.length > 0 ? "text-[#cc1a26]" : "text-gray-400 group-hover:text-gray-500"}`} />
+                    <span>Khu vực</span>
+                    {selectedLocations.length > 0 && (
+                      <span className="bg-[#cc1a26] text-white text-[9px] font-bold font-mono px-1 rounded-full leading-none flex items-center justify-center min-w-[15px] h-3.5 shadow-[0_1px_3px_rgba(204,26,38,0.2)]">
+                        {selectedLocations.length}
+                      </span>
+                    )}
+                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${openDropdown === "locations" ? "rotate-180 text-gray-600" : "group-hover:text-gray-500"}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {openDropdown === "locations" && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setOpenDropdown(null)} />
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                          className="absolute right-0 top-[calc(100%+6px)] w-[260px] bg-white rounded-[4px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-gray-100 py-3 z-20 origin-top-right flex flex-col"
+                        >
+                          <div className="px-4 py-1.5 flex items-center gap-2 mb-2">
+                            <div className="w-[3px] h-3.5 bg-[#cc1a26] rounded-full" />
                             <span className="text-[12px] font-bold text-[#cc1a26] uppercase tracking-wider">
                               Khu vực
                             </span>
                           </div>
-                          <div className="flex flex-col px-2 gap-0.5">
-                            {MOCK_FILTER_DATA.locations.map((location) => {
-                              const isChecked = selectedLocations.includes(location);
-                              return (
+                          
+                          {/* Search Input for Locations */}
+                          <div className="px-3 pb-2 mb-1">
+                            <div className="relative">
+                              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                              <input
+                                type="text"
+                                value={locationSearch}
+                                onChange={(e) => setLocationSearch(e.target.value)}
+                                placeholder="Tìm nhanh tỉnh thành..."
+                                className="w-full pl-8 pr-6 py-1.5 bg-gray-50/50 border border-gray-200 rounded-[6px] text-[12.5px] focus:outline-none focus:border-[#cc1a26]/40 focus:ring-1 focus:ring-[#cc1a26]/10"
+                              />
+                              {locationSearch && (
                                 <button
-                                  key={location}
-                                  onClick={() => toggleArrayItem(selectedLocations, setSelectedLocations, location)}
-                                  className={`flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-150 text-left w-full border-none group ${isChecked ? "bg-red-50/70" : "bg-transparent"}`}
+                                  onClick={() => setLocationSearch("")}
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-600"
                                 >
-                                  <div
-                                    className={`relative flex items-center justify-center w-[18px] h-[18px] border rounded-[5px] transition-all duration-200 shrink-0 ${
-                                      isChecked
-                                        ? "bg-[#cc1a26] border-[#cc1a26]"
-                                        : "bg-white border-gray-300 group-hover:border-[#cc1a26]"
-                                    }`}
-                                  >
-                                    <motion.div
-                                      initial={false}
-                                      animate={{ scale: isChecked ? 1 : 0, opacity: isChecked ? 1 : 0 }}
-                                      transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                                    >
-                                      <Check className="w-3 h-3 text-white" strokeWidth={3.5} />
-                                    </motion.div>
-                                  </div>
-                                  <span
-                                    className={`text-[14px] leading-tight select-none transition-colors duration-150 ${
-                                      isChecked
-                                        ? "text-[#cc1a26] font-semibold"
-                                        : "text-gray-600 group-hover:text-gray-900"
-                                    }`}
-                                  >
-                                    {location}
-                                  </span>
+                                  <X className="w-3 h-3" />
                                 </button>
-                              );
-                            })}
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col px-2 gap-0.5 max-h-[220px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                            {MOCK_FILTER_DATA.locations
+                              .filter((loc) => loc.toLowerCase().includes(locationSearch.toLowerCase()))
+                              .map((location) => {
+                                const isChecked = selectedLocations.includes(location);
+                                return (
+                                  <button
+                                    key={location}
+                                    onClick={() => toggleArrayItem(selectedLocations, setSelectedLocations, location)}
+                                    className={`flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-150 text-left w-full border-none group ${isChecked ? "bg-red-50/70" : "bg-transparent"}`}
+                                  >
+                                    <div
+                                      className={`relative flex items-center justify-center w-[17px] h-[17px] border rounded-[4px] transition-all duration-200 shrink-0 ${
+                                        isChecked
+                                          ? "bg-[#cc1a26] border-[#cc1a26]"
+                                          : "bg-white border-gray-300 group-hover:border-[#cc1a26]"
+                                      }`}
+                                    >
+                                      <motion.div
+                                        initial={false}
+                                        animate={{ scale: isChecked ? 1 : 0, opacity: isChecked ? 1 : 0 }}
+                                        transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                      >
+                                        <Check className="w-3 h-3 text-white" strokeWidth={3.5} />
+                                      </motion.div>
+                                    </div>
+                                    <span
+                                      className={`text-[13.5px] select-none transition-colors duration-150 ${
+                                        isChecked
+                                          ? "text-[#cc1a26] font-semibold"
+                                          : "text-gray-600 group-hover:text-gray-900"
+                                      }`}
+                                    >
+                                      {location}
+                                    </span>
+                                  </button>
+                                );
+                              })}
+                            {MOCK_FILTER_DATA.locations.filter((loc) => loc.toLowerCase().includes(locationSearch.toLowerCase())).length === 0 && (
+                              <div className="text-center py-4 text-xs text-gray-400 font-medium">
+                                Không tìm thấy tỉnh thành
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       </>
                     )}
                   </AnimatePresence>
                 </div>
+
               </div>
             </div>
 
@@ -652,7 +794,7 @@ function ProductsContent() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="bg-white rounded-[10px] p-12 text-center border border-gray-100 shadow-none md:shadow-sm space-y-4 max-w-xl mx-auto mt-10"
+                    className="bg-white rounded-[4px] p-12 text-center border border-gray-100 shadow-none md:shadow-sm space-y-4 max-w-xl mx-auto mt-10"
                   >
                     <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-gray-400">
                       <Search className="w-6 h-6" strokeWidth={2.5} />
@@ -668,7 +810,7 @@ function ProductsContent() {
                     </p>
                     <button
                       onClick={resetFilters}
-                      className="bg-[#cc1a26] text-white hover:bg-[#a8141f] transition-all py-3 px-8 rounded-[10px] font-bold text-[13px] inline-block mt-4 shadow-none md:shadow-sm"
+                      className="bg-[#cc1a26] text-white hover:bg-[#a8141f] transition-all py-3 px-8 rounded-[4px] font-bold text-[13px] inline-block mt-4 shadow-none md:shadow-sm"
                     >
                       Xoá bộ lọc & tải lại danh mục
                     </button>
@@ -731,14 +873,14 @@ function ProductsContent() {
                         return (
                           <div className="flex flex-col items-center justify-center pt-10 pb-6 w-full select-none">
                             {/* Interactive Minimalist Capsule (Beautiful Red & White Theme with 8px Border Radius) */}
-                            <div className="bg-white border border-red-50/80 rounded-[8px] py-2 px-3.5 sm:px-5 w-auto flex items-center gap-3 shadow-none md:shadow-[0_4px_20px_rgba(204,26,38,0.03)] md:hover:shadow-[0_6px_24px_rgba(204,26,38,0.06)] transition-all duration-300">
+                            <div className="bg-white border border-red-50/80 rounded-[4px] py-2 px-3.5 sm:px-5 w-auto flex items-center gap-3 shadow-none md:shadow-[0_4px_20px_rgba(204,26,38,0.03)] md:hover:shadow-[0_6px_24px_rgba(204,26,38,0.06)] transition-all duration-300">
                               {/* Previous Arrow Button */}
                               <button
                                 onClick={() =>
                                   handlePageChange(currentPage - 1)
                                 }
                                 disabled={currentPage === 1}
-                                className="flex items-center justify-center w-8 h-8 rounded-[8px] text-[#cc1a26]/75 hover:text-[#cc1a26] hover:bg-red-50/50 disabled:opacity-20 disabled:pointer-events-none transition-all duration-200 cursor-pointer group"
+                                className="flex items-center justify-center w-8 h-8 rounded-[4px] text-[#cc1a26]/75 hover:text-[#cc1a26] hover:bg-red-50/50 disabled:opacity-20 disabled:pointer-events-none transition-all duration-200 cursor-pointer group"
                                 aria-label="Trang trước"
                               >
                                 <ChevronLeft className="w-4 h-4 text-current group-hover:-translate-x-0.5 transition-transform" />
@@ -765,7 +907,7 @@ function ProductsContent() {
                                     <button
                                       key={pageNum}
                                       onClick={() => handlePageChange(pageNum)}
-                                      className={`w-8.5 h-8.5 rounded-[8px] font-bold text-[14px] transition-all duration-200 flex items-center justify-center cursor-pointer focus:outline-none
+                                      className={`w-8.5 h-8.5 rounded-[4px] font-bold text-[14px] transition-all duration-200 flex items-center justify-center cursor-pointer focus:outline-none
                                   ${
                                     isCurrent
                                       ? "bg-[#cc1a26] text-white shadow-none md:shadow-[0_3px_10px_rgba(204,26,38,0.25)] scale-102"
@@ -785,7 +927,7 @@ function ProductsContent() {
                                   handlePageChange(currentPage + 1)
                                 }
                                 disabled={currentPage === totalPages}
-                                className="flex items-center justify-center w-8 h-8 rounded-[8px] text-[#cc1a26]/75 hover:text-[#cc1a26] hover:bg-red-50/50 disabled:opacity-20 disabled:pointer-events-none transition-all duration-200 cursor-pointer group"
+                                className="flex items-center justify-center w-8 h-8 rounded-[4px] text-[#cc1a26]/75 hover:text-[#cc1a26] hover:bg-red-50/50 disabled:opacity-20 disabled:pointer-events-none transition-all duration-200 cursor-pointer group"
                                 aria-label="Trang sau"
                               >
                                 <ChevronRight className="w-4 h-4 text-current group-hover:translate-x-0.5 transition-transform" />

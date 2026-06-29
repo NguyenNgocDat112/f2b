@@ -62,7 +62,7 @@ export function NewsList() {
             <Link href={`/news/${news.id}`} key={news.id}>
               <motion.article 
                 variants={itemVariants}
-                className="bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-gray-100 hover:border-transparent transition-all duration-500 ease-[0.16,1,0.3,1] group cursor-pointer flex flex-col h-full"
+                className="bg-white rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-gray-100 hover:border-transparent transition-all duration-500 ease-[0.16,1,0.3,1] group cursor-pointer flex flex-col h-full"
               >
               <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100">
                 <div className="absolute inset-x-0 top-5 z-20 flex flex-wrap gap-2 px-6">

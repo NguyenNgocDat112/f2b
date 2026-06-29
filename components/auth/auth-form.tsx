@@ -70,7 +70,7 @@ export function AuthForm({
               <input 
                 type="tel" 
                 placeholder="Nhập số điện thoại"
-                className="w-full px-4 py-3 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
+                className="w-full px-4 py-3 rounded-[4px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
               />
             </motion.div>
           )}
@@ -81,7 +81,7 @@ export function AuthForm({
           <input 
             type="email" 
             placeholder="Nhập email của bạn"
-            className="w-full px-4 py-3 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
+            className="w-full px-4 py-3 rounded-[4px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
           />
         </div>
 
@@ -98,9 +98,9 @@ export function AuthForm({
                 <input 
                   type="text" 
                   placeholder="Nhập mã gửi về email"
-                  className="flex-1 px-4 py-3 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
+                  className="flex-1 px-4 py-3 rounded-[4px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 text-[14.5px]"
                 />
-                <button type="button" className="px-4 py-3 rounded-[10px] bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-[13px] transition-colors whitespace-nowrap">
+                <button type="button" className="px-4 py-3 rounded-[4px] bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-[13px] transition-colors whitespace-nowrap">
                   Gửi mã
                 </button>
               </div>
@@ -114,7 +114,7 @@ export function AuthForm({
             <input 
               type={showPassword ? "text" : "password"}
               placeholder="Nhập mật khẩu"
-              className="w-full px-4 py-3 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 pr-10 text-[14.5px]"
+              className="w-full px-4 py-3 rounded-[4px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all placeholder:text-gray-400 pr-10 text-[14.5px]"
             />
             <button 
               type="button" 
@@ -149,7 +149,7 @@ export function AuthForm({
 
         <button 
           type="submit"
-          className="w-full bg-[#18181b] hover:bg-[#27272a] text-white font-semibold py-[13px] rounded-[10px] mt-2 transition-all active:scale-[0.98] shadow-[0_4px_14px_rgba(0,0,0,0.15)] text-[14px]"
+          className="w-full bg-[#18181b] hover:bg-[#27272a] text-white font-semibold py-[13px] rounded-[4px] mt-2 transition-all active:scale-[0.98] shadow-[0_4px_14px_rgba(0,0,0,0.15)] text-[14px]"
         >
           {isLogin ? "Đăng nhập" : "Tạo tài khoản"}
         </button>

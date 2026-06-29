@@ -38,7 +38,7 @@ export function AnalysisCard({ data, priority = false, index = 0 }: AnalysisCard
         }}
         className="flex flex-col group cursor-pointer h-full"
       >
-        <div className="relative w-full aspect-[1.58] overflow-hidden rounded-[8px] mb-4 shadow-none border border-gray-100 transition-all duration-500 bg-gray-100">
+        <div className="relative w-full aspect-[1.58] overflow-hidden rounded-[4px] mb-4 shadow-none border border-gray-100 transition-all duration-500 bg-gray-100">
           
           {/* Top Tab Overlay exactly like the user image */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">

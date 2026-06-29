@@ -235,7 +235,7 @@ export function PartnerTestimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-            className="w-full mt-2 bg-white border border-gray-100 rounded-[20px] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row items-center justify-between gap-4 group"
+            className="w-full mt-2 bg-white border border-gray-100 rounded-[4px] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row items-center justify-between gap-4 group"
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200/60 flex items-center justify-center font-bold text-[18px] text-[#cc2424] font-sans shadow-inner group-hover:scale-105 transition-transform duration-500">

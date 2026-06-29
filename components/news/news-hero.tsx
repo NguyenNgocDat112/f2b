@@ -133,7 +133,7 @@ export function NewsHero() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-            className="relative mt-12 grid gap-5 rounded-[12px] border border-white/10 bg-white/5 p-4 backdrop-blur-xl sm:mt-16 sm:p-6 md:grid-cols-2 xl:grid-cols-3 shadow-none"
+            className="relative mt-12 grid gap-5 rounded-[4px] border border-white/10 bg-white/5 p-4 backdrop-blur-xl sm:mt-16 sm:p-6 md:grid-cols-2 xl:grid-cols-3 shadow-none"
           >
             {posts.map((post, index) => (
               <motion.div

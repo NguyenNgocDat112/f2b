@@ -2,11 +2,11 @@
 
 import { useState, Suspense, useEffect } from "react";
 import Link from "next/link";
-import { Search, Menu, X, ArrowLeft, Building2 } from "lucide-react";
+import { Search, Menu, X, ArrowLeft, Building2, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import LOGO from "@/assets/images/LOGO MATHUB/Logo MATHUB FINAL-03.png"
+import LOGO from "@/assets/images/LOGO MATHUB/Logo MATHUB FINAL-02.png"
 function SearchForm({
   isMobileSearchOpen,
   setIsMobileSearchOpen,
@@ -50,7 +50,7 @@ function SearchForm({
       </AnimatePresence>
       <form 
         onSubmit={handleSubmit}
-        className="relative group flex items-center w-full bg-gray-100 rounded-full h-10 md:h-11 px-4 hover:bg-gray-200/70 focus-within:bg-white focus-within:shadow-[0_2px_12px_rgb(0,0,0,0.06)] focus-within:ring-1 focus-within:ring-gray-200 transition-all duration-300 text-gray-500 focus-within:text-gray-900"
+        className="relative group flex items-center w-full bg-gray-100 rounded-[4px] h-10 md:h-11 px-4 hover:bg-gray-200/70 focus-within:bg-white focus-within:shadow-[0_2px_12px_rgb(0,0,0,0.06)] focus-within:ring-1 focus-within:ring-gray-200 transition-all duration-300 text-gray-500 focus-within:text-gray-900"
       >
         <Search className="w-4 h-4 md:w-[18px] md:h-[18px] flex-shrink-0 transition-colors" strokeWidth={2.5} />
         <input
@@ -88,10 +88,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="max-w-[1440px] mx-auto h-[56px] md:h-[64px] px-2 md:px-4 lg:px-6 flex items-center justify-between w-full gap-2 md:gap-4 lg:gap-6 relative z-50 bg-white">
+      <div className="max-w-[1440px] mx-auto h-[56px] md:h-[80px] px-2 md:px-4 lg:px-6 flex items-center justify-between w-full gap-2 md:gap-4 lg:gap-6 relative z-50 bg-white">
         
         {/* Left Section: Logo & Primary Nav */}
-        <div className={`items-center w-[160px] shrink-0 ${isMobileSearchOpen ? 'hidden sm:flex' : 'flex'}`}>
+        <div className={`items-center w-[90px] h-[90px] shrink-0 ${isMobileSearchOpen ? 'hidden sm:flex' : 'flex'}`}>
           <Link
             href="/"
             className="flex items-center gap-0.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4] rounded-lg pr-1"
@@ -121,35 +121,42 @@ export function Header() {
           <nav className="hidden lg:flex items-center font-semibold text-gray-900 text-[15px]">
             <Link
               href="/products"
-              className="h-10 px-3 lg:px-4 flex items-center rounded-full hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4]"
+              className="h-10 px-3 lg:px-4 flex items-center rounded-[4px] hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26]/20"
             >
               Danh Mục Sản Phẩm
             </Link>
             <Link
-              href="/partner"
-              className="h-10 px-3 lg:px-4 flex items-center rounded-full hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4]"
+              href="/advertising"
+              className="h-10 px-3 lg:px-4 flex items-center rounded-[4px] hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26]/20"
             >
-              Đăng Kí Đối Tác
+              Quảng Cáo Doanh Nghiệp
+            </Link>
+            <Link
+              href="/partner"
+              className="group/partner h-9 px-4.5 flex items-center justify-center rounded-[4px] border border-[#cc1a26]/30 hover:border-[#cc1a26]/80 text-[#cc1a26] font-bold text-[13.5px] bg-white hover:bg-[#cc1a26]/[0.03] transition-all duration-300 mx-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26]/20 shadow-[0_1px_2px_rgba(204,26,38,0.02)] hover:shadow-[0_4px_12px_rgba(204,26,38,0.08)] shrink-0 gap-1.5"
+            >
+              <span>Tham Gia MatHub</span>
+              <ArrowUpRight className="w-4 h-4 text-[#cc1a26]/80 group-hover/partner:text-[#cc1a26] group-hover/partner:translate-x-0.5 group-hover/partner:-translate-y-0.5 transition-all duration-300" />
             </Link>
             <Link
               href="/news"
-              className="h-10 px-3 lg:px-4 flex items-center rounded-full hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4]"
+              className="h-10 px-3 lg:px-4 flex items-center rounded-[4px] hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26]/20"
             >
               Tin Tức
             </Link>
             <Link
               href="/ebook"
-              className="h-10 px-3 lg:px-4 flex items-center rounded-full hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71a1d4]"
+              className="h-10 px-3 lg:px-4 flex items-center rounded-[4px] hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26]/20"
             >
               E-book
             </Link>
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link href="/login" className="flex items-center justify-center bg-[#cc1a26] text-white font-semibold rounded-full px-3 md:px-4 h-9 md:h-10 hover:bg-[#b0131e] transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26] focus-visible:ring-offset-2 whitespace-nowrap">
+            <Link href="/login" className="flex items-center justify-center bg-[#cc1a26] text-white font-semibold rounded-[4px] px-3 md:px-4 h-9 md:h-10 hover:bg-[#b0131e] transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#cc1a26] focus-visible:ring-offset-2 whitespace-nowrap">
               Đăng Nhập
             </Link>
-            <Link href="/signup" className="hidden sm:flex items-center justify-center bg-[#e9e9e9] text-gray-900 font-semibold rounded-full px-3 md:px-4 h-9 md:h-10 hover:bg-[#e1e1e1] transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2 whitespace-nowrap">
+            <Link href="/signup" className="hidden sm:flex items-center justify-center bg-[#e9e9e9] text-gray-900 font-semibold rounded-[4px] px-3 md:px-4 h-9 md:h-10 hover:bg-[#e1e1e1] transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2 whitespace-nowrap">
               Đăng Ký
             </Link>
             <button
@@ -186,7 +193,7 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="font-semibold text-gray-900 text-lg py-3 hover:bg-gray-50 rounded-xl px-4 transition-colors"
             >
-              Đăng Kí Đối Tác
+              Tham Gia MatHub
             </Link>
             <Link
               href="/news"
@@ -200,7 +207,7 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="font-semibold text-gray-900 text-lg py-3 hover:bg-gray-50 rounded-xl px-4 transition-colors"
             >
-              Ebook
+              E-book
             </Link>
             
             <div className="sm:hidden mt-4 pt-4 border-t border-gray-100">

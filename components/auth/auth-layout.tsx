@@ -85,10 +85,10 @@ export function AuthLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-[#F6F4F0] p-3 sm:p-5 md:p-8 flex items-center justify-center font-sans">
-      <div className="w-full max-w-[1200px] bg-white rounded-[20px] shadow-sm border border-gray-100 flex flex-col lg:flex-row h-full max-h-[900px] lg:h-[max(560px,min(85vh,720px))] mx-auto overflow-hidden">
+      <div className="w-full max-w-[1200px] bg-white rounded-[4px] shadow-sm border border-gray-100 flex flex-col lg:flex-row h-full max-h-[900px] lg:h-[max(560px,min(85vh,720px))] mx-auto overflow-hidden">
         {/* Left Image Section */}
         <div className="relative w-full lg:w-[45%] p-3 hidden md:flex flex-col flex-shrink-0">
-          <div className="relative w-full h-full min-h-[400px] rounded-[16px] overflow-hidden group">
+          <div className="relative w-full h-full min-h-[400px] rounded-[4px] overflow-hidden group">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -147,7 +147,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
 
             {/* Glassmorphism Overlay */}
             <div className="absolute bottom-4 left-4 right-4">
-              <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-5 md:p-6 rounded-[14px] text-white shadow-2xl relative overflow-hidden">
+              <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-5 md:p-6 rounded-[4px] text-white shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 
                 <div className="relative overflow-hidden w-full" style={{ minHeight: '120px' }}>

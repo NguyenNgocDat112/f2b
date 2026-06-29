@@ -34,9 +34,8 @@ export const SupplierCard = React.memo(({ supplier, idx }: { supplier: Supplier;
       <div className="flex flex-col w-full lg:w-[130px] shrink-0 items-center justify-start gap-2 mt-1">
         <div className="w-full flex items-center justify-center">
           <BrandLogo 
-            logo={supplier.logo} 
-            brandLogoText={supplier.brandLogoText} 
-            brandSubText={supplier.brandSubText} 
+            imageUrl={supplier.image} 
+            name={supplier.name} 
           />
         </div>
       </div>

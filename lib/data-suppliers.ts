@@ -1,3 +1,20 @@
+import pr1 from "@/assets/images/images/products/Kính Cường Lực.png" 
+import pr2 from "@/assets/images/images/products/Kính Dán An Toàn.png" 
+ import pr3 from "@/assets/images/images/products/Kính Hộp.png" 
+ import pr4 from "@/assets/images/images/products/Kính Low - E.png" 
+ import pr5 from "@/assets/images/images/products/Kính Màu.png" 
+ import pr6 from "@/assets/images/images/products/Kính Phản Quang.png" 
+ import pr7 from "@/assets/images/images/products/Kính Uốn Cong.png" 
+ import pr8 from "@/assets/images/images/products/Lam nhôm chắn nắng hình hộp.png" 
+ import pr9 from "@/assets/images/images/products/Nhôm Hệ Cửa.png" 
+ import pr10 from "@/assets/images/images/products/Nhôm Ốp Ngoài Trời.png"
+ import pr11 from "@/assets/images/images/products/Trần Nhôm.png" 
+ import pr12 from "@/assets/images/images/products/Tấm Ốp Mặt Dựng.png" 
+ import logo1 from "@/assets/images/images/products/Công Ty Cổ Phần Nhôm Việt Dũng.webp"
+ import logo2 from "@/assets/images/images/products/logo Công Ty TNHH Nhôm Kính Không Gian.png"
+ import logo3 from "@/assets/images/images/products/Logo Công Ty Cổ Phần TID.webp"
+
+
 export interface ShowcaseItem {
   name: string;
   image: string;
@@ -2653,7 +2670,7 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     logo: "VD",
     brandLogoText: "ALCOREST",
     brandSubText: "Nhôm Việt Dũng",
-    image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=600&h=400",
+    image: logo1.src,
     categories: ["Nguyên Vật Liệu"],
     subCategories: ["Nhôm - Kính", "Gỗ - Ván - Vật liệu tấm"],
     nhomSanPhams: ["Nhôm xây dựng"],
@@ -2678,10 +2695,18 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "2500237032",
     englishName: "VIETDUNG ALUMINIUM JOINT STOCK COMPANY",
     productShowcase: [
-      { name: "Tấm ốp nhôm nhựa ACP Alcorest nội thất", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Tấm ốp nhôm chống cháy PVDF ngoại thất", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Trần nhôm Clip-in / Lay-in tiêu âm", image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Hệ lam nhôm chắn nắng hình hộp", image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=400&h=260" }
+      { name: "Kính Màu", image: pr1.src},
+      { name: "Kính Uống Công", image:pr2.src },
+      { name: "Trần Nhôm", image: pr3.src},
+      { name: "Nhôm Ống", image: pr4.src },
+      { name: "Kính Phản Quang", image: pr5.src },
+      { name: "Kính Low", image: pr6.src },
+      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
+      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
+      { name: "Kính Dán An Toàn", image: pr9.src },
+      { name: "Kính Cường Lực", image: pr10.src },
+      { name: "Nhôm Hệ Cửa", image: pr11.src },
+      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
     ]
   },
   {
@@ -2690,7 +2715,7 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     logo: "DA",
     brandLogoText: "DONG A",
     brandSubText: "Nhôm Đông Á",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f35aa9e?auto=format&fit=crop&q=80&w=600&h=400",
+    image: logo3.src,
     categories: ["Nguyên Vật Liệu"],
     subCategories: ["Nhôm - Kính"],
     nhomSanPhams: ["Nhôm xây dựng"],
@@ -2715,10 +2740,18 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "0800345691",
     englishName: "EAST ASIA ALUMINUM COMPANY LIMITED",
     productShowcase: [
-      { name: "Thanh nhôm định hình hệ cửa đi xếp trượt", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Nhôm hệ mặt dựng giấu đố cao cấp", image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Hệ vách ngăn văn phòng khung nhôm", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Profile nhôm xi mạ anode bền bỉ", image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=400&h=260" }
+      { name: "Kính Màu", image: pr1.src},
+      { name: "Kính Uống Công", image:pr2.src },
+      { name: "Trần Nhôm", image: pr3.src},
+      { name: "Nhôm Ống", image: pr4.src },
+      { name: "Kính Phản Quang", image: pr5.src },
+      { name: "Kính Low", image: pr6.src },
+      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
+      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
+      { name: "Kính Dán An Toàn", image: pr9.src },
+      { name: "Kính Cường Lực", image: pr10.src },
+      { name: "Nhôm Hệ Cửa", image: pr11.src },
+      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
     ]
   },
   {
@@ -2727,7 +2760,7 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     logo: "DT",
     brandLogoText: "GRANDO",
     brandSubText: "Nhôm Đô Thành",
-    image: "https://images.unsplash.com/photo-1518174526364-7098e9fc7e60?auto=format&fit=crop&q=80&w=600&h=400",
+    image: logo2.src,
     categories: ["Nguyên Vật Liệu"],
     subCategories: ["Nhôm - Kính"],
     nhomSanPhams: ["Nhôm xây dựng"],
@@ -2752,10 +2785,18 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "0107935768",
     englishName: "GRANDO ALUMINIUM",
     productShowcase: [
-      { name: "Thanh nhôm định hình cao cấp Grando", image: "https://images.unsplash.com/photo-1504307651254-35680f35aa9e?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Nhôm Billet đúc chất lượng đồng đều", image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Nhôm ống tròn phi tiêu chuẩn công nghiệp", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Hệ cửa nhôm Grando-Smart cách âm", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400&h=260" }
+      { name: "Kính Màu", image: pr1.src},
+      { name: "Kính Uống Công", image:pr2.src },
+      { name: "Trần Nhôm", image: pr3.src},
+      { name: "Nhôm Ống", image: pr4.src },
+      { name: "Kính Phản Quang", image: pr5.src },
+      { name: "Kính Low", image: pr6.src },
+      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
+      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
+      { name: "Kính Dán An Toàn", image: pr9.src },
+      { name: "Kính Cường Lực", image: pr10.src },
+      { name: "Nhôm Hệ Cửa", image: pr11.src },
+      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
     ]
   },
   {
@@ -3386,7 +3427,37 @@ const mappedOriginals = [
   };
 });
 
-export const LIST_SUPPLIERS: Supplier[] = [
+function deepNormalizeNFC<T>(obj: T): T {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj === "string") {
+    let normalized = obj.normalize("NFC");
+    if (normalized.includes("1504307651254-35680f35aa9e")) {
+      normalized = normalized.replace(/1504307651254-35680f35aa9e/g, "1589939705384-5185137a7f0f");
+    }
+    if (normalized.includes("1518174526364-7098e9fc7e60")) {
+      normalized = normalized.replace(/1518174526364-7098e9fc7e60/g, "1590069261209-f8e9b8642343");
+    }
+    if (normalized.includes("1541888086425-d81bb19240f5")) {
+      normalized = normalized.replace(/1541888086425-d81bb19240f5/g, "1531834685032-c34bf0d8b929");
+    }
+    return normalized as unknown as T;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(item => deepNormalizeNFC(item)) as unknown as T;
+  }
+  if (typeof obj === "object") {
+    const newObj: any = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        newObj[key] = deepNormalizeNFC(obj[key]);
+      }
+    }
+    return newObj as T;
+  }
+  return obj;
+}
+
+const rawSuppliersList: Supplier[] = [
   ...NEW_MATERIALS_SUPPLIERS,
   ...mappedOriginals
 ].map(s => {
@@ -4697,3 +4768,5 @@ export const LIST_SUPPLIERS: Supplier[] = [
     sanPhamCuThes
   };
 });
+
+export const LIST_SUPPLIERS: Supplier[] = deepNormalizeNFC(rawSuppliersList);

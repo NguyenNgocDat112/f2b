@@ -265,6 +265,28 @@ const CustomCheckbox = ({ checked, label, onChange }: { checked: boolean; label:
   </button>
 );
 
+const getCategorySubCategories = (catName: string) => {
+  switch (catName) {
+    case "Nguyên vật liệu": return MATERIALS_SUB_CATEGORIES;
+    case "Nội ngoại thất": return INTERIOR_SUB_CATEGORIES;
+    case "Công trình - Dự án": return PROJECT_SUB_CATEGORIES;
+    case "Kiểm định - Giám sát - Pháp lý": return LEGAL_SUPERVISION_SUB_CATEGORIES;
+    case "Dịch vụ nhà ở": return HOME_SERVICES_SUB_CATEGORIES;
+    default: return [];
+  }
+};
+
+const getCategoryTree = (catName: string, subName: string) => {
+  switch (catName) {
+    case "Nguyên vật liệu": return getMaterialTree(subName);
+    case "Nội ngoại thất": return getInteriorTree(subName);
+    case "Công trình - Dự án": return getProjectTree(subName);
+    case "Kiểm định - Giám sát - Pháp lý": return getLegalTree(subName);
+    case "Dịch vụ nhà ở": return getHomeServicesTree(subName);
+    default: return [];
+  }
+};
+
 export const MobileFilterDrawer = React.memo(({
   isOpen,
   setIsOpen,
@@ -440,412 +462,209 @@ export const MobileFilterDrawer = React.memo(({
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto px-5 py-4 pb-[100px] scroll-smooth">
               
-              <AccordionItem 
-                defaultOpen={true}
-                title="DANH MỤC" 
-              >
-                <div className="flex flex-col gap-1.5 pt-1">
-                  {MOCK_FILTER_DATA.subCategories.map((cat) => {
-                    const isActive = selectedCategory === cat.name;
-                    const catCount = mainCatCounts[cat.name] || 0;
+              {/* Main Categories */}
+              <div className="space-y-3 pb-4 border-b border-gray-100">
+                <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest px-1.5 block">Danh Mục Chính</span>
+                <div className="space-y-1">
+                  {["Nguyên vật liệu", "Nội ngoại thất", "Công trình - Dự án", "Kiểm định - Giám sát - Pháp lý", "Dịch vụ nhà ở"]
+                    .filter((mainCat) => mainCat === selectedCategory)
+                    .map((mainCat) => {
+                    const isActive = selectedCategory === mainCat;
+
                     return (
                       <button
-                        key={cat.name}
+                        key={mainCat}
                         onClick={() => {
-                          setSelectedCategory(cat.name);
+                          setSelectedCategory(mainCat);
+                          setSelectedSubCategory?.("");
+                          setSelectedNhom?.("");
+                          setSelectedSanPham?.("");
                         }}
-                        className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
+                        className={`group relative w-full flex items-center justify-between px-3.5 py-2.5 rounded-[4px] text-[13.5px] text-left transition-all duration-300 pl-4.5
                           ${isActive 
-                            ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                            : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
+                            ? "bg-[#cc1a26]/[0.03] text-[#cc1a26] font-semibold" 
+                            : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-950"
                           }
                         `}
                       >
-                        <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{cat.name}</span>
-                        <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                          ({catCount})
-                        </span>
+                        <span className="flex-1 pr-2">{mainCat}</span>
+                        {isActive && (
+                          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1 h-4 bg-[#cc1a26] rounded-full" />
+                        )}
                       </button>
                     );
                   })}
                 </div>
-              </AccordionItem>
+              </div>
 
-              <AccordionItem 
-                key={selectedCategory}
-                defaultOpen={selectedCategory === "Nguyên vật liệu" || selectedCategory === "Nội ngoại thất"}
-                title="HẠNG MỤC"
-              >
-                <div className="flex flex-col gap-1.5">
-                  {selectedCategory === "Nguyên vật liệu" ? (
-                    MATERIALS_SUB_CATEGORIES.map((ind) => {
-                      const isActive = selectedSubCategory === ind.name;
-                      const hasTree = true;
-                      const activeTree = getMaterialTree(ind.name);
+              {/* Subcategories (Hạng Mục) based on active category */}
+              <div className="space-y-4 pt-4">
+                {selectedCategory && (
+                  <>
+                    <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest px-1.5 block">Hạng Mục</span>
+                    <div className="space-y-2 px-1">
+                      {getCategorySubCategories(selectedCategory).map((ind) => {
+                        const isSubActive = selectedSubCategory === ind.name;
+                        const subCount = subCatCounts[ind.name] || 0;
+                        const activeTree = getCategoryTree(selectedCategory, ind.name);
 
-                      const subCount = subCatCounts[ind.name] || 0;
+                        return (
+                          <div key={ind.name} className="flex flex-col">
+                            <button
+                              onClick={() => {
+                                setSelectedSubCategory?.(isSubActive ? "" : ind.name);
+                                setSelectedNhom?.("");
+                                setSelectedSanPham?.("");
+                              }}
+                              className={`group relative w-full flex items-center justify-between px-3 py-2 rounded-[4px] text-[13px] text-left transition-all duration-300
+                                ${isSubActive 
+                                  ? "text-[#cc1a26] font-semibold" 
+                                  : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-900"
+                                }
+                              `}
+                            >
+                              <div className="flex items-center gap-2">
+                                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isSubActive ? 'rotate-180 text-[#cc1a26]' : 'text-gray-300 group-hover:text-gray-400'}`} />
+                                <span>{ind.name}</span>
+                              </div>
+                              <span className={`text-[11px] transition-colors ${isSubActive ? 'text-[#cc1a26]' : 'text-gray-400'}`}>
+                                ({subCount})
+                              </span>
+                            </button>
+
+                            <AnimatePresence>
+                              {isSubActive && activeTree && activeTree.length > 0 && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  className="overflow-hidden pl-7 space-y-3 mt-1 pb-2"
+                                >
+                                  {activeTree.map((nhom: any) => {
+                                    const isNhomActive = selectedNhom === nhom.name;
+                                    return (
+                                      <div key={nhom.name} className="flex flex-col gap-1.5">
+                                        <button
+                                          onClick={() => {
+                                            setSelectedNhom?.(isNhomActive ? "" : nhom.name);
+                                            setSelectedSanPham?.("");
+                                          }}
+                                          className={`flex items-center justify-between text-left text-[12.5px] font-medium transition-colors duration-200 w-full group/nhom
+                                            ${isNhomActive 
+                                              ? "text-[#cc1a26] font-semibold" 
+                                              : "text-gray-700 hover:text-gray-900"
+                                            }
+                                          `}
+                                        >
+                                          <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
+                                            <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-125' : 'bg-gray-300'}`} />
+                                            <span>{nhom.name}</span>
+                                          </span>
+                                          <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
+                                            ({nhomCounts[nhom.name] || 0})
+                                          </span>
+                                        </button>
+                                      </div>
+                                    );
+                                  })}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Supplementary Filters on Mobile (Beautiful Accordion) */}
+              <div className="space-y-1 pt-6 border-t border-gray-100 mt-6">
+                <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest px-1 block mb-2">
+                  Bộ lọc bổ sung
+                </span>
+                
+                {/* 1. Vai trò Accordion */}
+                <AccordionItem title="Vai trò">
+                  <div className="space-y-1 pl-1">
+                    {MOCK_FILTER_DATA.roles.map((role) => {
+                      const isChecked = selectedRoles.includes(role);
                       return (
-                        <div key={ind.name} className="flex flex-col">
-                          <button
-                            key={ind.name}
-                            onClick={() => {
-                              setSelectedSubCategory?.(isActive ? "" : ind.name);
-                            }}
-                            className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
-                              ${isActive 
-                                ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                                : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
-                              }
-                            `}
-                          >
-                            <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{ind.name}</span>
-                            <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                              ({subCount})
-                            </span>
-                          </button>
-
-                          {/* Nested Hierarchical Tree for Mobile */}
-                          <AnimatePresence initial={false}>
-                            {isActive && hasTree && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                className="overflow-hidden ml-4 pl-3.5 border-l-2 border-red-100 flex flex-col gap-3.5 mt-2 mb-3"
-                              >
-                                {activeTree.map((nhom) => {
-                                  const isNhomActive = selectedNhom === nhom.name;
-                                  return (
-                                    <div key={nhom.name} className="flex flex-col gap-2">
-                                      {/* Group Header Button */}
-                                      <button
-                                        onClick={() => {
-                                          setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                        }}
-                                        className={`flex items-center justify-between text-left text-[13px] font-medium transition-colors duration-200 w-full group/nhom
-                                          ${isNhomActive 
-                                            ? "text-[#cc1a26] font-semibold" 
-                                            : "text-gray-700 hover:text-gray-900"
-                                          }
-                                        `}
-                                      >
-                                        <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                          <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-110' : 'bg-gray-300'}`} />
-                                          <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                        </span>
-                                        <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                           ({nhomCounts[nhom.name] || 0})
-                                        </span>
-                                      </button>
-                                    </div>
-                                  );
-                                })}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
+                        <CustomCheckbox
+                          key={role}
+                          checked={isChecked}
+                          label={role}
+                          onChange={() => toggleArrayItem(selectedRoles, setSelectedRoles, role)}
+                        />
                       );
-                    })
-                  ) : selectedCategory === "Nội ngoại thất" ? (
-                    INTERIOR_SUB_CATEGORIES.map((ind) => {
-                      const isActive = selectedSubCategory === ind.name;
-                      const hasTree = true;
-                      const activeTree = getInteriorTree(ind.name);
+                    })}
+                  </div>
+                </AccordionItem>
 
-                      const subCount = subCatCounts[ind.name] || 0;
+                {/* 2. Mô hình Accordion */}
+                <AccordionItem title="Mô hình">
+                  <div className="space-y-1 pl-1">
+                    {MOCK_FILTER_DATA.models.map((model) => {
+                      const isChecked = selectedModels.includes(model);
                       return (
-                        <div key={ind.name} className="flex flex-col">
-                          <button
-                            key={ind.name}
-                            onClick={() => {
-                              setSelectedSubCategory?.(isActive ? "" : ind.name);
-                            }}
-                            className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
-                              ${isActive 
-                                ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                                : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
-                              }
-                            `}
-                          >
-                            <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{ind.name}</span>
-                            <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                              ({subCount})
-                            </span>
-                          </button>
-
-                          {/* Nested Hierarchical Tree for Mobile */}
-                          <AnimatePresence initial={false}>
-                            {isActive && hasTree && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                className="overflow-hidden ml-4 pl-3.5 border-l-2 border-red-100 flex flex-col gap-3.5 mt-2 mb-3"
-                              >
-                                {activeTree.map((nhom) => {
-                                  const isNhomActive = selectedNhom === nhom.name;
-                                  return (
-                                    <div key={nhom.name} className="flex flex-col gap-2">
-                                      {/* Group Header Button */}
-                                      <button
-                                        onClick={() => {
-                                          setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                        }}
-                                        className={`flex items-center justify-between text-left text-[13px] font-medium transition-colors duration-200 w-full group/nhom
-                                          ${isNhomActive 
-                                            ? "text-[#cc1a26] font-semibold" 
-                                            : "text-gray-700 hover:text-gray-900"
-                                          }
-                                        `}
-                                      >
-                                        <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                          <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-110' : 'bg-gray-300'}`} />
-                                          <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                        </span>
-                                        <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                           ({nhomCounts[nhom.name] || 0})
-                                        </span>
-                                      </button>
-                                    </div>
-                                  );
-                                })}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
+                        <CustomCheckbox
+                          key={model}
+                          checked={isChecked}
+                          label={model}
+                          onChange={() => toggleArrayItem(selectedModels, setSelectedModels, model)}
+                        />
                       );
-                    })
-                  ) : selectedCategory === "Công trình - Dự án" ? (
-                    PROJECT_SUB_CATEGORIES.map((ind) => {
-                      const isActive = selectedSubCategory === ind.name;
-                      const hasTree = true;
-                      const activeTree = getProjectTree(ind.name);
+                    })}
+                  </div>
+                </AccordionItem>
 
-                      const subCount = subCatCounts[ind.name] || 0;
-                      return (
-                        <div key={ind.name} className="flex flex-col">
-                          <button
-                            key={ind.name}
-                            onClick={() => {
-                              setSelectedSubCategory?.(isActive ? "" : ind.name);
-                            }}
-                            className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
-                              ${isActive 
-                                ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                                : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
-                              }
-                            `}
-                          >
-                            <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{ind.name}</span>
-                            <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                              ({subCount})
-                            </span>
-                          </button>
+                {/* 3. Khu vực Accordion */}
+                <AccordionItem title="Khu vực">
+                  <div className="space-y-3.5 pl-1">
+                    {/* Location Quick Search */}
+                    <div className="relative">
+                      <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        value={locationSearch}
+                        onChange={(e) => setLocationSearch(e.target.value)}
+                        placeholder="Tìm tỉnh thành..."
+                        className="w-full pl-8 pr-6 py-1.5 bg-gray-50 border border-gray-200 rounded-[6px] text-[13px] focus:outline-none focus:border-[#cc1a26]/40"
+                      />
+                      {locationSearch && (
+                        <button
+                          onClick={() => setLocationSearch("")}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 hover:bg-gray-200 rounded-full text-gray-400"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
 
-                          {/* Nested Hierarchical Tree for Mobile */}
-                          <AnimatePresence initial={false}>
-                            {isActive && hasTree && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                className="overflow-hidden ml-4 pl-3.5 border-l-2 border-red-100 flex flex-col gap-3.5 mt-2 mb-3"
-                              >
-                                {activeTree.map((nhom) => {
-                                  const isNhomActive = selectedNhom === nhom.name;
-                                  return (
-                                    <div key={nhom.name} className="flex flex-col gap-2">
-                                      {/* Group Header Button */}
-                                      <button
-                                        onClick={() => {
-                                          setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                        }}
-                                        className={`flex items-center justify-between text-left text-[13px] font-medium transition-colors duration-200 w-full group/nhom
-                                          ${isNhomActive 
-                                            ? "text-[#cc1a26] font-semibold" 
-                                            : "text-gray-700 hover:text-gray-900"
-                                          }
-                                        `}
-                                      >
-                                        <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                          <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-110' : 'bg-gray-300'}`} />
-                                          <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                        </span>
-                                        <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                           ({nhomCounts[nhom.name] || 0})
-                                        </span>
-                                      </button>
-                                    </div>
-                                  );
-                                })}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                    <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
+                      {MOCK_FILTER_DATA.locations
+                        .filter((loc) => loc.toLowerCase().includes(locationSearch.toLowerCase()))
+                        .map((location) => {
+                          const isChecked = selectedLocations.includes(location);
+                          return (
+                            <CustomCheckbox
+                              key={location}
+                              checked={isChecked}
+                              label={location}
+                              onChange={() => toggleArrayItem(selectedLocations, setSelectedLocations, location)}
+                            />
+                          );
+                        })}
+                      {MOCK_FILTER_DATA.locations.filter((loc) => loc.toLowerCase().includes(locationSearch.toLowerCase())).length === 0 && (
+                        <div className="text-center py-4 text-xs text-gray-400 font-medium">
+                          Không tìm thấy tỉnh thành
                         </div>
-                      );
-                    })
-                  ) : selectedCategory === "Kiểm định - Giám sát - Pháp lý" ? (
-                    LEGAL_SUPERVISION_SUB_CATEGORIES.map((ind) => {
-                      const isActive = selectedSubCategory === ind.name;
-                      const hasTree = true;
-                      const activeTree = getLegalTree(ind.name);
+                      )}
+                    </div>
+                  </div>
+                </AccordionItem>
+              </div>
 
-                      const subCount = subCatCounts[ind.name] || 0;
-                      return (
-                        <div key={ind.name} className="flex flex-col">
-                          <button
-                            key={ind.name}
-                            onClick={() => {
-                              setSelectedSubCategory?.(isActive ? "" : ind.name);
-                            }}
-                            className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
-                              ${isActive 
-                                ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                                : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
-                              }
-                            `}
-                          >
-                            <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{ind.name}</span>
-                            <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                              ({subCount})
-                            </span>
-                          </button>
-
-                          {/* Nested Hierarchical Tree for Mobile */}
-                          <AnimatePresence initial={false}>
-                            {isActive && hasTree && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                className="overflow-hidden ml-4 pl-3.5 border-l-2 border-red-100 flex flex-col gap-3.5 mt-2 mb-3"
-                              >
-                                {activeTree.map((nhom) => {
-                                  const isNhomActive = selectedNhom === nhom.name;
-                                  return (
-                                    <div key={nhom.name} className="flex flex-col gap-2">
-                                      {/* Group Header Button */}
-                                      <button
-                                        onClick={() => {
-                                          setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                        }}
-                                        className={`flex items-center justify-between text-left text-[13px] font-medium transition-colors duration-200 w-full group/nhom
-                                          ${isNhomActive 
-                                            ? "text-[#cc1a26] font-semibold" 
-                                            : "text-gray-700 hover:text-gray-900"
-                                          }
-                                        `}
-                                      >
-                                        <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                          <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-110' : 'bg-gray-300'}`} />
-                                          <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                        </span>
-                                        <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                           ({nhomCounts[nhom.name] || 0})
-                                        </span>
-                                      </button>
-                                    </div>
-                                  );
-                                })}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      );
-                    })
-                  ) : selectedCategory === "Dịch vụ nhà ở" ? (
-                    HOME_SERVICES_SUB_CATEGORIES.map((ind) => {
-                      const isActive = selectedSubCategory === ind.name;
-                      const hasTree = true;
-                      const activeTree = getHomeServicesTree(ind.name);
-
-                      const subCount = subCatCounts[ind.name] || 0;
-                      return (
-                        <div key={ind.name} className="flex flex-col">
-                          <button
-                            key={ind.name}
-                            onClick={() => {
-                              setSelectedSubCategory?.(isActive ? "" : ind.name);
-                            }}
-                            className={`group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] text-left transition-all duration-300
-                              ${isActive 
-                                ? "bg-red-50 border border-red-100 text-[#cc1a26] font-semibold" 
-                                : "bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
-                              }
-                            `}
-                          >
-                            <span className={`transition-transform duration-300 ${!isActive && 'group-hover:translate-x-1'}`}>{ind.name}</span>
-                            <span className={`text-[12px] transition-colors duration-300 ${isActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                              ({subCount})
-                            </span>
-                          </button>
-
-                          {/* Nested Hierarchical Tree for Mobile */}
-                          <AnimatePresence initial={false}>
-                            {isActive && hasTree && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                className="overflow-hidden ml-4 pl-3.5 border-l-2 border-red-100 flex flex-col gap-3.5 mt-2 mb-3"
-                              >
-                                {activeTree.map((nhom) => {
-                                  const isNhomActive = selectedNhom === nhom.name;
-                                  return (
-                                    <div key={nhom.name} className="flex flex-col gap-2">
-                                      {/* Group Header Button */}
-                                      <button
-                                        onClick={() => {
-                                          setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                        }}
-                                        className={`flex items-center justify-between text-left text-[13px] font-medium transition-colors duration-200 w-full group/nhom
-                                          ${isNhomActive 
-                                            ? "text-[#cc1a26] font-semibold" 
-                                            : "text-gray-700 hover:text-gray-900"
-                                          }
-                                        `}
-                                      >
-                                        <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                          <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-110' : 'bg-gray-300'}`} />
-                                          <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                        </span>
-                                        <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                           ({nhomCounts[nhom.name] || 0})
-                                        </span>
-                                      </button>
-                                    </div>
-                                  );
-                                })}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    MOCK_FILTER_DATA.relatedIndustries.map((ind) => (
-                      <button
-                        key={ind.name}
-                        onClick={() => {
-                        }}
-                        className="group w-full flex items-center justify-between px-3.5 py-2.5 rounded-[8px] text-[14px] bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 hover:border-gray-200 transition-all duration-300 text-left"
-                      >
-                        <span className="transition-transform duration-350 group-hover:translate-x-1">{ind.name}</span>
-                        <span className="text-gray-400 text-[12px] group-hover:text-gray-500 transition-colors">
-                          ({ind.count})
-                        </span>
-                      </button>
-                    ))
-                  )}
-                </div>
-              </AccordionItem>
-
-              
             </div>
 
             {/* Bottom Footer Actions */}
@@ -856,14 +675,14 @@ export const MobileFilterDrawer = React.memo(({
                     resetFilters();
                     setIsOpen(false);
                   }}
-                  className="flex-[0.4] text-center py-3.5 bg-gray-50 border border-gray-200 text-gray-600 font-bold text-[14px] rounded-[10px] hover:bg-gray-100 transition-colors"
+                  className="flex-[0.4] text-center py-3.5 bg-gray-50 border border-gray-200 text-gray-600 font-bold text-[14px] rounded-[4px] hover:bg-gray-100 transition-colors"
                 >
                   Xoá lọc
                 </button>
               )}
               <button 
                 onClick={() => setIsOpen(false)}
-                className="flex-1 text-center py-3.5 bg-[#cc1a26] text-white font-bold text-[14px] rounded-[10px] hover:bg-[#a8141f] transition-all"
+                className="flex-1 text-center py-3.5 bg-[#cc1a26] text-white font-bold text-[14px] rounded-[4px] hover:bg-[#a8141f] transition-all"
               >
                 Xem {filteredCount} kết quả
               </button>

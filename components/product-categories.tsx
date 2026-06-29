@@ -92,7 +92,7 @@ export function ProductCategories() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="w-full relative aspect-[21/9] sm:aspect-[3.5/1] lg:aspect-[4.5/1] bg-gray-100 rounded-[10px] overflow-hidden mb-8 sm:mb-12 md:mb-14 shadow-sm"
+        className="w-full relative aspect-[21/9] sm:aspect-[3.5/1] lg:aspect-[4.5/1] bg-gray-100 rounded-[4px] overflow-hidden mb-8 sm:mb-12 md:mb-14 shadow-sm"
       >
         <Image quality={100}
           src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=100&w=3840"
@@ -156,7 +156,7 @@ export function ProductCategories() {
               onClick={() => handleCategoryClick(category.name)}
               className="flex flex-col group cursor-pointer w-[38vw] xs:w-[28vw] sm:w-auto shrink-0 snap-start"
             >
-              <div className="relative aspect-[4/4.5] w-full rounded-[10px] overflow-hidden mb-2.5 sm:mb-3.5 bg-gray-100 shadow-sm transition-shadow duration-700 ease-[0.16,1,0.3,1] group-hover:shadow-[0_12px_24px_rgb(0,0,0,0.08)] pointer-events-none">
+              <div className="relative aspect-[4/4.5] w-full rounded-[4px] overflow-hidden mb-2.5 sm:mb-3.5 bg-gray-100 shadow-sm transition-shadow duration-700 ease-[0.16,1,0.3,1] group-hover:shadow-[0_12px_24px_rgb(0,0,0,0.08)] pointer-events-none">
                 <Image quality={100}
                   src={category.image}
                   alt={category.name}
@@ -167,7 +167,7 @@ export function ProductCategories() {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700 ease-[0.16,1,0.3,1]" />
                 {/* Inner ring for refinement */}
-                <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[10px] z-10" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[4px] z-10" />
               </div>
               <h3 className="text-center font-bold text-[#1e1e24] text-[12.5px] sm:text-[15px] md:text-[16px] lg:text-[17.5px] group-hover:text-[#1ca894] transition-colors duration-300 px-1 truncate pointer-events-none">
                 {category.name}

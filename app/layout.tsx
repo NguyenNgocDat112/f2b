@@ -1,20 +1,15 @@
 import type {Metadata} from 'next';
-import { Inter, Noto_Serif } from 'next/font/google';
+import { Lora } from 'next/font/google';
 import './globals.css'; // Global styles
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { OpeningLoader } from '@/components/opening-loader';
 import { Suspense } from 'react';
 
-const inter = Inter({
+const lora = Lora({
   subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-sans',
-});
-
-const notoSerif = Noto_Serif({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['400', '700', '900'],
-  variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -27,8 +22,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="vi" className={`${inter.variable} ${notoSerif.variable}`}>
+    <html lang="vi" className={`${lora.variable}`}>
       <body suppressHydrationWarning className="font-sans antialiased text-gray-900 flex flex-col min-h-screen">
+        <OpeningLoader />
         <Header />
         <div className="flex-grow">
           {children}

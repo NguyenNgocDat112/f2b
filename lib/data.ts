@@ -27,7 +27,7 @@ export const slides = [
 export const products = [
   {
     id: 1,
-    name: "Nguyên vật liệu",
+    name: "Nguyên Vật Liệu",
     promo: "BÁN CHẠY",
     originalPrice: "95.000₫",
     price: "88.000₫",
@@ -35,7 +35,7 @@ export const products = [
   },
   {
     id: 2,
-    name: "Nội ngoại thất",
+    name: "Nội Ngoại Thất",
     promo: "BÁN CHẠY",
     originalPrice: "210.000₫",
     price: "185.000₫",
@@ -43,7 +43,7 @@ export const products = [
   },
   {
     id: 3,
-    name: "Công trình dự án",
+    name: "Công Trình Dự Án",
     promo: "BÁN CHẠY",
     originalPrice: "180.000₫",
     price: "165.000₫",

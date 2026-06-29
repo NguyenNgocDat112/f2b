@@ -107,7 +107,7 @@ export function BestSellers() {
           transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
         >
           <Link 
-            href="/best-sellers" 
+            href="/products" 
             className="flex items-center gap-1 text-[13px] sm:text-[15px] md:text-base text-[#1ca894] font-semibold hover:text-[#158979] transition-colors group"
           >
             Xem Tất Cả
@@ -136,7 +136,7 @@ export function BestSellers() {
               key={product.id} 
               variants={fadeInUp}
               onClick={() => handleProductClick(product.name)}
-              className="group flex flex-col bg-white rounded-[10px] overflow-hidden border border-gray-100/80 hover:border-transparent hover:shadow-[0_15px_40px_rgb(0,0,0,0.08)] transition-all duration-500 ease-[0.16,1,0.3,1] w-[160px] xs:w-[200px] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] lg:w-[calc(20%-13px)] shrink-0 snap-start cursor-pointer"
+              className="group flex flex-col bg-white rounded-[4px] overflow-hidden border border-gray-100/80 hover:border-transparent hover:shadow-[0_15px_40px_rgb(0,0,0,0.08)] transition-all duration-500 ease-[0.16,1,0.3,1] w-[160px] xs:w-[200px] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] lg:w-[calc(20%-13px)] shrink-0 snap-start cursor-pointer"
             >
               {/* Image Container */}
               <div className="relative aspect-[4/3] w-full bg-[#f8f9fa] overflow-hidden border-b border-gray-50/50 pointer-events-none">
@@ -154,11 +154,6 @@ export function BestSellers() {
               
               {/* Content Container */}
               <div className="px-3 py-2.5 sm:px-4 sm:py-3 flex flex-col flex-1 bg-white pointer-events-none justify-center">
-                <div className="mb-1">
-                  <span className="inline-block px-1.5 py-0.5 bg-[#1ca894]/10 text-[#1ca894] text-[9px] sm:text-[10px] font-bold rounded-md tracking-wider uppercase">
-                    {product.promo}
-                  </span>
-                </div>
                 <h3 className="font-semibold text-gray-900 text-[13px] sm:text-[14px] md:text-[15px] leading-snug line-clamp-2 group-hover:text-[#1ca894] transition-colors duration-300">
                   {product.name}
                 </h3>

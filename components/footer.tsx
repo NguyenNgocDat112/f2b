@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter as useNextRouter } from "next/navigation";
-import { Youtube, Facebook, Instagram, Building2, Search, ArrowRight } from "lucide-react";
+import {  Building2, Search, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
 import LOGO from "@/assets/images/LOGO MATHUB/Logo MATHUB FINAL-03.png"
@@ -60,7 +60,7 @@ export function Footer() {
                   placeholder="Tìm vật liệu..."
                   value={footerSearchVal}
                   onChange={(e) => setFooterSearchVal(e.target.value)}
-                  className="w-full pl-3.5 pr-10 py-2 text-[12.5px] bg-white border border-gray-200 rounded-[8px] focus:outline-none focus:border-[#cc1a26] focus:ring-4 focus:ring-[#cc1a26]/10 transition-all duration-300 text-gray-800 placeholder:text-gray-400 font-normal shadow-sm hover:border-gray-300"
+                  className="w-full pl-3.5 pr-10 py-2 text-[12.5px] bg-white border border-gray-200 rounded-[4px] focus:outline-none focus:border-[#cc1a26] focus:ring-4 focus:ring-[#cc1a26]/10 transition-all duration-300 text-gray-800 placeholder:text-gray-400 font-normal shadow-sm hover:border-gray-300"
                 />
                 <button
                   type="submit"
@@ -159,7 +159,7 @@ export function Footer() {
               <a href="tel:+84822123456" className="text-gray-500 hover:text-gray-900 text-[13px] transition-colors duration-300 font-normal">
                 +84 822 123 456
               </a>
-              <button className="bg-gray-900 hover:bg-black text-white font-medium text-[11.5px] tracking-wider px-4 py-2 rounded-full w-fit transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 mt-1 uppercase font-semibold flex items-center gap-1.5 cursor-pointer">
+              <button className="bg-gray-900 hover:bg-black text-white font-medium text-[11.5px] tracking-wider px-4 py-2 rounded-[4px] w-fit transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 mt-1 uppercase font-semibold flex items-center gap-1.5 cursor-pointer">
                 <span>Liên Hệ Tư Vấn</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
