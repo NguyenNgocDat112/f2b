@@ -221,6 +221,18 @@ interface FilterSidebarProps {
   onNotifyNoSuppliers: (message: string) => void;
 }
 
+const formatCategoryName = (name: string): string => {
+  const mappings: Record<string, string> = {
+    "Nguyên vật liệu": "Nguyên Vật Liệu",
+    "Nội ngoại thất": "Nội Ngoại Thất",
+    "Nội Ngoại Thất": "Nội Ngoại Thất",
+    "Công trình - Dự án": "Công Trình - Dự Án",
+    "Kiểm định - Giám sát - Pháp lý": "Kiểm Định - Giám Sát - Pháp Lý",
+    "Dịch vụ nhà ở": "Dịch Vụ Nhà Ở"
+  };
+  return mappings[name] || name;
+};
+
 export default function FilterSidebar({ 
   activeFilterCount,
   resetFilters,
@@ -252,7 +264,7 @@ export default function FilterSidebar({
   // Categories with their supplier counts (mocked or calculated)
   const categories = [
     { name: "Nguyên vật liệu", count: 245, icon: Building2 },
-    { name: "Nội ngoại thất", count: 112, icon: Award },
+    { name: "Nội Ngoại Thất", count: 112, icon: Award },
     { name: "Công trình - Dự án", count: 89, icon: Factory },
     { name: "Kiểm định - Giám sát - Pháp lý", count: 56, icon: ShieldCheck },
     { name: "Dịch vụ nhà ở", count: 34, icon: Package },
@@ -314,7 +326,7 @@ export default function FilterSidebar({
   const getCategorySubCategories = (catName: string) => {
     switch (catName) {
       case "Nguyên vật liệu": return MATERIALS_SUB_CATEGORIES;
-      case "Nội ngoại thất": return INTERIOR_SUB_CATEGORIES;
+      case "Nội Ngoại Thất": return INTERIOR_SUB_CATEGORIES;
       case "Công trình - Dự án": return PROJECT_SUB_CATEGORIES;
       case "Kiểm định - Giám sát - Pháp lý": return LEGAL_SUPERVISION_SUB_CATEGORIES;
       case "Dịch vụ nhà ở": return HOME_SERVICES_SUB_CATEGORIES;
@@ -325,7 +337,7 @@ export default function FilterSidebar({
   const getCategoryTree = (catName: string, subName: string) => {
     switch (catName) {
       case "Nguyên vật liệu": return getMaterialTree(subName);
-      case "Nội ngoại thất": return getInteriorTree(subName);
+      case "Nội Ngoại Thất": return getInteriorTree(subName);
       case "Công trình - Dự án": return getProjectTree(subName);
       case "Kiểm định - Giám sát - Pháp lý": return getLegalTree(subName);
       case "Dịch vụ nhà ở": return getHomeServicesTree(subName);
@@ -335,127 +347,142 @@ export default function FilterSidebar({
 
   return (
     <div className="w-full h-full flex flex-col bg-white border-r border-gray-100 overflow-hidden">
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-6">
-        {/* Main Categories (Only matched/selected category) */}
-        <section>
-          <div className="space-y-1">
-            {categories.filter(cat => cat.name === selectedCategory).map((cat) => {
-              const isActive = selectedCategory === cat.name;
+      <div className="flex-1 overflow-y-auto custom-scrollbar p-2.5 space-y-3">
+        {/* Accordion list for all 5 major categories */}
+        <div className="space-y-2">
+          {categories.map((cat) => {
+            const isActive = selectedCategory === cat.name;
+            const Icon = cat.icon;
 
-              return (
+            return (
+              <div key={cat.name} className="space-y-1.5 border-b border-gray-100/40 pb-2.5 last:border-0 last:pb-0">
+                {/* Main Category Header Button */}
                 <button
-                  key={cat.name}
                   onClick={() => {
-                    setSelectedCategory(cat.name);
+                    setSelectedCategory(isActive ? "" : cat.name);
                     setSelectedSubCategory?.("");
                     setSelectedNhom?.("");
                     setSelectedSanPham?.("");
                   }}
-                  className={`group relative w-full flex items-center justify-between px-3 py-2.5 rounded-[4px] text-[13.5px] text-left transition-all duration-300
+                  className={`group relative w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-[4px] text-[13px] text-left transition-all duration-300 border overflow-hidden
                     ${isActive 
-                      ? "bg-[#cc1a26]/5 text-[#cc1a26] font-semibold" 
-                      : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-900"
+                      ? "bg-red-50/80 border-red-100 text-[#cc1a26] font-bold shadow-sm" 
+                      : "bg-transparent border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-950"
                     }
                   `}
                 >
-                  <span className="flex-1 pr-2">{cat.name}</span>
+                  {/* Left Indicator bar */}
                   {isActive && (
-                    <motion.div layoutId="active-indicator" className="absolute left-0 w-1 h-5 bg-[#cc1a26] rounded-r-full" />
+                    <motion.div 
+                      layoutId="active-indicator-sidebar" 
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-[65%] bg-[#cc1a26] rounded-r-[3px]"
+                      transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                    />
                   )}
+
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    {/* Category Name */}
+                    <span className="truncate leading-tight font-semibold">{formatCategoryName(cat.name)}</span>
+                  </div>
+
+                  {/* Right side interactive indicators */}
+                  <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 shrink-0
+                    ${isActive ? "rotate-90 text-[#cc1a26]" : "text-gray-300 group-hover:text-gray-500"}`} 
+                  />
                 </button>
-              );
-            })}
-          </div>
-        </section>
 
-        {/* Dynamic Content Based on Category */}
-        <AnimatePresence mode="wait">
-          {selectedCategory && (
-            <motion.section
-              key={`${selectedCategory}-section`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="space-y-4"
-            >
-              <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-3">Hạng Mục</h3>
-              <div className="space-y-2 px-1">
-                {getCategorySubCategories(selectedCategory).map((ind) => {
-                  const isActive = selectedSubCategory === ind.name;
-                  const hasTree = true;
-                  const activeTree = getCategoryTree(selectedCategory, ind.name);
-                  const subCount = subCounts[ind.name] || 0;
+                {/* Subcategories (Hạng Mục) belonging to this Main Category */}
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="overflow-hidden space-y-2 pl-1 pr-1"
+                    >
+                      <h3 className="text-[11px] font-extrabold text-gray-950 uppercase tracking-wider px-2.5 pt-2 pb-0.5">Hạng Mục</h3>
+                      <div className="space-y-0.5">
+                        {getCategorySubCategories(cat.name).map((ind) => {
+                          const isSubActive = selectedSubCategory === ind.name;
+                          const hasTree = true;
+                          const activeTree = getCategoryTree(cat.name, ind.name);
+                          const subCount = subCounts[ind.name] || 0;
 
-                  return (
-                    <div key={ind.name} className="flex flex-col">
-                      <button
-                        onClick={() => {
-                          setSelectedSubCategory?.(isActive ? "" : ind.name);
-                          setSelectedNhom?.("");
-                          setSelectedSanPham?.("");
-                        }}
-                        className={`group relative w-full flex items-center justify-between px-3 py-2 rounded-[4px] text-[13px] text-left transition-all duration-300
-                          ${isActive 
-                            ? "text-[#cc1a26] font-semibold" 
-                            : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-900"
-                          }
-                        `}
-                      >
-                        <div className="flex items-center gap-2">
-                          <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${isActive ? 'rotate-90 text-[#cc1a26]' : 'text-gray-300 group-hover:text-gray-400'}`} />
-                          <span>{ind.name}</span>
-                        </div>
-                        <span className={`text-[11px] transition-colors ${isActive ? 'text-[#cc1a26]' : 'text-gray-400'}`}>
-                          ({subCount})
-                        </span>
-                      </button>
-
-                      <AnimatePresence>
-                        {isActive && hasTree && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden pl-7 space-y-3 mt-1 pb-2"
-                          >
-                            {activeTree.map((nhom: any) => {
-                              const isNhomActive = selectedNhom === nhom.name;
-                              return (
-                                <div key={nhom.name} className="flex flex-col gap-1.5">
-                                  {/* Group Header Button */}
-                                  <button
-                                    onClick={() => {
-                                      setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                      setSelectedSanPham?.("");
-                                    }}
-                                    className={`flex items-center justify-between text-left text-[12.5px] font-medium transition-colors duration-200 w-full group/nhom
-                                      ${isNhomActive 
-                                        ? "text-[#cc1a26] font-semibold" 
-                                        : "text-gray-700 hover:text-gray-900"
-                                      }
-                                    `}
-                                  >
-                                    <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                      <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-125 shadow-[0_0_5px_rgba(204,26,38,0.5)]' : 'bg-gray-300'}`} />
-                                      <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
-                                    </span>
-                                    <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                      ({nhomCounts[nhom.name] || 0})
-                                    </span>
-                                  </button>
+                          return (
+                            <div key={ind.name} className="flex flex-col">
+                              <button
+                                onClick={() => {
+                                  setSelectedSubCategory?.(isSubActive ? "" : ind.name);
+                                  setSelectedNhom?.("");
+                                  setSelectedSanPham?.("");
+                                }}
+                                className={`group relative w-full flex items-center justify-between px-2.5 py-1.5 rounded-[4px] text-[12.5px] text-left transition-all duration-300 font-semibold
+                                  ${isSubActive 
+                                    ? "text-[#cc1a26] bg-red-50/50" 
+                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-950"
+                                  }
+                                `}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${isSubActive ? 'rotate-90 text-[#cc1a26]' : 'text-gray-300 group-hover:text-gray-400'}`} />
+                                  <span>{ind.name}</span>
                                 </div>
-                              );
-                            })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
+                                <span className={`text-[11px] transition-colors ${isSubActive ? 'text-[#cc1a26] font-bold' : 'text-gray-400'}`}>
+                                  ({subCount})
+                                </span>
+                              </button>
+
+                              <AnimatePresence>
+                                {isSubActive && hasTree && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="overflow-hidden pl-7 space-y-3 mt-1 pb-2"
+                                  >
+                                    {activeTree.map((nhom: any) => {
+                                      const isNhomActive = selectedNhom === nhom.name;
+                                      return (
+                                        <div key={nhom.name} className="flex flex-col gap-1.5">
+                                          {/* Group Header Button */}
+                                          <button
+                                            onClick={() => {
+                                              setSelectedNhom?.(isNhomActive ? "" : nhom.name);
+                                              setSelectedSanPham?.("");
+                                            }}
+                                            className={`flex items-center justify-between text-left text-[12.5px] font-medium transition-colors duration-200 w-full group/nhom
+                                              ${isNhomActive 
+                                                ? "text-[#cc1a26] font-bold" 
+                                                : "text-gray-700 hover:text-[#cc1a26]"
+                                              }
+                                            `}
+                                          >
+                                            <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
+                                              <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-125 shadow-[0_0_5px_rgba(204,26,38,0.4)]' : 'bg-gray-300'}`} />
+                                              <span className={isNhomActive ? "text-[#cc1a26]" : ""}>{nhom.name}</span>
+                                            </span>
+                                            <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
+                                              ({nhomCounts[nhom.name] || 0})
+                                            </span>
+                                          </button>
+                                        </div>
+                                      );
+                                    })}
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </motion.section>
-          )}
-        </AnimatePresence>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

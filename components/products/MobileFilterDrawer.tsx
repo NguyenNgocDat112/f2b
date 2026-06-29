@@ -4,8 +4,14 @@ import {
   SlidersHorizontal, 
   X,
   ChevronDown,
+  ChevronRight,
   Search,
-  Check
+  Check,
+  Building2,
+  Award,
+  Factory,
+  ShieldCheck,
+  Package
 } from "lucide-react";
 import { 
   MOCK_FILTER_DATA, 
@@ -265,10 +271,22 @@ const CustomCheckbox = ({ checked, label, onChange }: { checked: boolean; label:
   </button>
 );
 
+const formatCategoryName = (name: string): string => {
+  const mappings: Record<string, string> = {
+    "Nguyên vật liệu": "Nguyên Vật Liệu",
+    "Nội ngoại thất": "Nội Ngoại Thất",
+    "Nội Ngoại Thất": "Nội Ngoại Thất",
+    "Công trình - Dự án": "Công Trình - Dự Án",
+    "Kiểm định - Giám sát - Pháp lý": "Kiểm Định - Giám Sát - Pháp Lý",
+    "Dịch vụ nhà ở": "Dịch Vụ Nhà Ở"
+  };
+  return mappings[name] || name;
+};
+
 const getCategorySubCategories = (catName: string) => {
   switch (catName) {
     case "Nguyên vật liệu": return MATERIALS_SUB_CATEGORIES;
-    case "Nội ngoại thất": return INTERIOR_SUB_CATEGORIES;
+    case "Nội Ngoại Thất": return INTERIOR_SUB_CATEGORIES;
     case "Công trình - Dự án": return PROJECT_SUB_CATEGORIES;
     case "Kiểm định - Giám sát - Pháp lý": return LEGAL_SUPERVISION_SUB_CATEGORIES;
     case "Dịch vụ nhà ở": return HOME_SERVICES_SUB_CATEGORIES;
@@ -279,7 +297,7 @@ const getCategorySubCategories = (catName: string) => {
 const getCategoryTree = (catName: string, subName: string) => {
   switch (catName) {
     case "Nguyên vật liệu": return getMaterialTree(subName);
-    case "Nội ngoại thất": return getInteriorTree(subName);
+    case "Nội Ngoại Thất": return getInteriorTree(subName);
     case "Công trình - Dự án": return getProjectTree(subName);
     case "Kiểm định - Giám sát - Pháp lý": return getLegalTree(subName);
     case "Dịch vụ nhà ở": return getHomeServicesTree(subName);
@@ -338,7 +356,7 @@ export const MobileFilterDrawer = React.memo(({
 
   const mainCatCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    const mainCategories = ["Nguyên vật liệu", "Nội ngoại thất", "Công trình - Dự án", "Kiểm định - Giám sát - Pháp lý", "Dịch vụ nhà ở"];
+    const mainCategories = ["Nguyên vật liệu", "Nội Ngoại Thất", "Công trình - Dự án", "Kiểm định - Giám sát - Pháp lý", "Dịch vụ nhà ở"];
     
     mainCategories.forEach(mainCat => {
       let count = 0;
@@ -348,8 +366,8 @@ export const MobileFilterDrawer = React.memo(({
           const materialTerms = ["Sắt Thép", "Xi Măng", "Gạch", "Sơn", "Chống Thấm", "Gỗ", "Nhôm", "Kính", "Nguyên Vật Liệu", "Nguyên vật liệu"];
           isMatch = s.categories.some(c => materialTerms.some(term => c.includes(term)));
         }
-        if (!isMatch && mainCat === "Nội ngoại thất") {
-          const interiorTerms = ["Nội Thất", "Ngoại Thất", "Vệ Sinh", "Bếp", "Đèn", "Trang Trí", "Nội ngoại thất"];
+        if (!isMatch && mainCat === "Nội Ngoại Thất") {
+          const interiorTerms = ["Nội Thất", "Ngoại Thất", "Vệ Sinh", "Bếp", "Đèn", "Trang Trí", "Nội Ngoại Thất", "Nội ngoại thất"];
           isMatch = s.categories.some(c => interiorTerms.some(term => c.includes(term)));
         }
         if (isMatch) count++;
@@ -462,120 +480,140 @@ export const MobileFilterDrawer = React.memo(({
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto px-5 py-4 pb-[100px] scroll-smooth">
               
-              {/* Main Categories */}
-              <div className="space-y-3 pb-4 border-b border-gray-100">
-                <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest px-1.5 block">Danh Mục Chính</span>
-                <div className="space-y-1">
-                  {["Nguyên vật liệu", "Nội ngoại thất", "Công trình - Dự án", "Kiểm định - Giám sát - Pháp lý", "Dịch vụ nhà ở"]
-                    .filter((mainCat) => mainCat === selectedCategory)
-                    .map((mainCat) => {
-                    const isActive = selectedCategory === mainCat;
+              {/* Accordion list for all 5 major categories */}
+              <div className="space-y-4">
+                {["Nguyên vật liệu", "Nội Ngoại Thất", "Công trình - Dự án", "Kiểm định - Giám sát - Pháp lý", "Dịch vụ nhà ở"].map((mainCat) => {
+                  const isActive = selectedCategory === mainCat;
+                  const Icon = {
+                    "Nguyên vật liệu": Building2,
+                    "Nội Ngoại Thất": Award,
+                    "Công trình - Dự án": Factory,
+                    "Kiểm định - Giám sát - Pháp lý": ShieldCheck,
+                    "Dịch vụ nhà ở": Package,
+                  }[mainCat] || Building2;
 
-                    return (
+                  return (
+                    <div key={mainCat} className="space-y-2 border-b border-gray-100/60 pb-4 last:border-0 last:pb-0">
+                      {/* Main Category Header Button */}
                       <button
-                        key={mainCat}
                         onClick={() => {
-                          setSelectedCategory(mainCat);
+                          setSelectedCategory(isActive ? "" : mainCat);
                           setSelectedSubCategory?.("");
                           setSelectedNhom?.("");
                           setSelectedSanPham?.("");
                         }}
-                        className={`group relative w-full flex items-center justify-between px-3.5 py-2.5 rounded-[4px] text-[13.5px] text-left transition-all duration-300 pl-4.5
+                        className={`group relative w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-[4px] text-[13.5px] text-left transition-all duration-300 border overflow-hidden
                           ${isActive 
-                            ? "bg-[#cc1a26]/[0.03] text-[#cc1a26] font-semibold" 
-                            : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-950"
+                            ? "bg-red-50/80 border-red-100 text-[#cc1a26] font-bold shadow-sm" 
+                            : "bg-transparent border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-950"
                           }
                         `}
                       >
-                        <span className="flex-1 pr-2">{mainCat}</span>
+                        {/* Left Indicator bar */}
                         {isActive && (
-                          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1 h-4 bg-[#cc1a26] rounded-full" />
+                          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-[65%] bg-[#cc1a26] rounded-r-[3px]" />
                         )}
+
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          {/* Category Name */}
+                          <span className="truncate leading-tight font-semibold">{formatCategoryName(mainCat)}</span>
+                        </div>
+
+                        {/* Right side interactive indicators */}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 shrink-0
+                          ${isActive ? "rotate-180 text-[#cc1a26]" : "text-gray-300 group-hover:text-gray-500"}`} 
+                        />
                       </button>
-                    );
-                  })}
-                </div>
-              </div>
 
-              {/* Subcategories (Hạng Mục) based on active category */}
-              <div className="space-y-4 pt-4">
-                {selectedCategory && (
-                  <>
-                    <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest px-1.5 block">Hạng Mục</span>
-                    <div className="space-y-2 px-1">
-                      {getCategorySubCategories(selectedCategory).map((ind) => {
-                        const isSubActive = selectedSubCategory === ind.name;
-                        const subCount = subCatCounts[ind.name] || 0;
-                        const activeTree = getCategoryTree(selectedCategory, ind.name);
+                      {/* Subcategories (Hạng Mục) under this Main Category */}
+                      <AnimatePresence initial={false}>
+                        {isActive && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                            className="overflow-hidden space-y-2 px-1"
+                          >
+                            <span className="text-[11.5px] font-black text-gray-950 uppercase tracking-widest px-1.5 pt-2 block">Hạng Mục</span>
+                            <div className="space-y-1.5">
+                              {getCategorySubCategories(mainCat).map((ind) => {
+                                const isSubActive = selectedSubCategory === ind.name;
+                                const subCount = subCatCounts[ind.name] || 0;
+                                const activeTree = getCategoryTree(mainCat, ind.name);
 
-                        return (
-                          <div key={ind.name} className="flex flex-col">
-                            <button
-                              onClick={() => {
-                                setSelectedSubCategory?.(isSubActive ? "" : ind.name);
-                                setSelectedNhom?.("");
-                                setSelectedSanPham?.("");
-                              }}
-                              className={`group relative w-full flex items-center justify-between px-3 py-2 rounded-[4px] text-[13px] text-left transition-all duration-300
-                                ${isSubActive 
-                                  ? "text-[#cc1a26] font-semibold" 
-                                  : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-900"
-                                }
-                              `}
-                            >
-                              <div className="flex items-center gap-2">
-                                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isSubActive ? 'rotate-180 text-[#cc1a26]' : 'text-gray-300 group-hover:text-gray-400'}`} />
-                                <span>{ind.name}</span>
-                              </div>
-                              <span className={`text-[11px] transition-colors ${isSubActive ? 'text-[#cc1a26]' : 'text-gray-400'}`}>
-                                ({subCount})
-                              </span>
-                            </button>
-
-                            <AnimatePresence>
-                              {isSubActive && activeTree && activeTree.length > 0 && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: "auto", opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  className="overflow-hidden pl-7 space-y-3 mt-1 pb-2"
-                                >
-                                  {activeTree.map((nhom: any) => {
-                                    const isNhomActive = selectedNhom === nhom.name;
-                                    return (
-                                      <div key={nhom.name} className="flex flex-col gap-1.5">
-                                        <button
-                                          onClick={() => {
-                                            setSelectedNhom?.(isNhomActive ? "" : nhom.name);
-                                            setSelectedSanPham?.("");
-                                          }}
-                                          className={`flex items-center justify-between text-left text-[12.5px] font-medium transition-colors duration-200 w-full group/nhom
-                                            ${isNhomActive 
-                                              ? "text-[#cc1a26] font-semibold" 
-                                              : "text-gray-700 hover:text-gray-900"
-                                            }
-                                          `}
-                                        >
-                                          <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
-                                            <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-[#cc1a26] scale-125' : 'bg-gray-300'}`} />
-                                            <span>{nhom.name}</span>
-                                          </span>
-                                          <span className={`text-[11px] font-normal ${isNhomActive ? "text-[#cc1a26]/80 font-medium" : "text-gray-400"}`}>
-                                            ({nhomCounts[nhom.name] || 0})
-                                          </span>
-                                        </button>
+                                return (
+                                  <div key={ind.name} className="flex flex-col">
+                                    <button
+                                      onClick={() => {
+                                        setSelectedSubCategory?.(isSubActive ? "" : ind.name);
+                                        setSelectedNhom?.("");
+                                        setSelectedSanPham?.("");
+                                      }}
+                                      className={`group relative w-full flex items-center justify-between px-3 py-2 rounded-[4px] text-[13px] text-left transition-all duration-300 font-semibold
+                                        ${isSubActive 
+                                          ? "text-gray-950 bg-gray-100" 
+                                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-950"
+                                        }
+                                      `}
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isSubActive ? 'rotate-180 text-gray-950' : 'text-gray-300'}`} />
+                                        <span>{ind.name}</span>
                                       </div>
-                                    );
-                                  })}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        );
-                      })}
+                                      <span className={`text-[11px] transition-colors ${isSubActive ? 'text-gray-950 font-bold' : 'text-gray-400'}`}>
+                                        ({subCount})
+                                      </span>
+                                    </button>
+
+                                    <AnimatePresence>
+                                      {isSubActive && activeTree && activeTree.length > 0 && (
+                                        <motion.div
+                                          initial={{ height: 0, opacity: 0 }}
+                                          animate={{ height: "auto", opacity: 1 }}
+                                          exit={{ height: 0, opacity: 0 }}
+                                          className="overflow-hidden pl-7 space-y-3 mt-1 pb-2"
+                                        >
+                                          {activeTree.map((nhom: any) => {
+                                            const isNhomActive = selectedNhom === nhom.name;
+                                            return (
+                                              <div key={nhom.name} className="flex flex-col gap-1.5">
+                                                <button
+                                                  onClick={() => {
+                                                    setSelectedNhom?.(isNhomActive ? "" : nhom.name);
+                                                    setSelectedSanPham?.("");
+                                                  }}
+                                                  className={`flex items-center justify-between text-left text-[12.5px] font-medium transition-colors duration-200 w-full group/nhom
+                                                    ${isNhomActive 
+                                                      ? "text-gray-950 font-bold" 
+                                                      : "text-gray-700 hover:text-gray-950"
+                                                    }
+                                                  `}
+                                                >
+                                                  <span className="flex items-center gap-1.5 transition-transform duration-200 group-hover/nhom:translate-x-0.5">
+                                                    <span className={`w-1.5 h-1.5 rounded-full transition-transform ${isNhomActive ? 'bg-gray-950 scale-125 shadow-[0_0_5px_rgba(3,7,18,0.2)]' : 'bg-gray-300'}`} />
+                                                    <span>{nhom.name}</span>
+                                                  </span>
+                                                  <span className={`text-[11px] font-normal ${isNhomActive ? "text-gray-950/80 font-medium" : "text-gray-400"}`}>
+                                                    ({nhomCounts[nhom.name] || 0})
+                                                  </span>
+                                                </button>
+                                              </div>
+                                            );
+                                          })}
+                                        </motion.div>
+                                      )}
+                                    </AnimatePresence>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  </>
-                )}
+                  );
+                })}
               </div>
 
               {/* Supplementary Filters on Mobile (Beautiful Accordion) */}
@@ -675,14 +713,14 @@ export const MobileFilterDrawer = React.memo(({
                     resetFilters();
                     setIsOpen(false);
                   }}
-                  className="flex-[0.4] text-center py-3.5 bg-gray-50 border border-gray-200 text-gray-600 font-bold text-[14px] rounded-[4px] hover:bg-gray-100 transition-colors"
+                  className="flex-[0.4] text-center py-3.5 bg-gray-50 border border-gray-200 text-gray-600 font-bold text-[14px] rounded-[10px] hover:bg-gray-100 transition-colors"
                 >
                   Xoá lọc
                 </button>
               )}
               <button 
                 onClick={() => setIsOpen(false)}
-                className="flex-1 text-center py-3.5 bg-[#cc1a26] text-white font-bold text-[14px] rounded-[4px] hover:bg-[#a8141f] transition-all"
+                className="flex-1 text-center py-3.5 bg-[#cc1a26] text-white font-bold text-[14px] rounded-[10px] hover:bg-[#a8141f] transition-all"
               >
                 Xem {filteredCount} kết quả
               </button>

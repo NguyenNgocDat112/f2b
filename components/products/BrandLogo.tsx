@@ -31,7 +31,7 @@ export const BrandLogo = React.memo(({ imageUrl, name }: { imageUrl: string; nam
         }}
       />
 
-      <div className="relative w-[102px] h-[98px] rounded-[6px] overflow-hidden scale-[1.02] transition-transform duration-500">
+      <div className="relative w-[105px] h-[98px] rounded-[6px] overflow-hidden scale-[1.02] transition-transform duration-500">
         <Image
           src={imageUrl}
           alt={name || "Supplier Logo"}

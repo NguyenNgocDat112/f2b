@@ -1,18 +1,21 @@
-import pr1 from "@/assets/images/images/products/Kính Cường Lực.png" 
-import pr2 from "@/assets/images/images/products/Kính Dán An Toàn.png" 
- import pr3 from "@/assets/images/images/products/Kính Hộp.png" 
- import pr4 from "@/assets/images/images/products/Kính Low - E.png" 
- import pr5 from "@/assets/images/images/products/Kính Màu.png" 
- import pr6 from "@/assets/images/images/products/Kính Phản Quang.png" 
- import pr7 from "@/assets/images/images/products/Kính Uốn Cong.png" 
- import pr8 from "@/assets/images/images/products/Lam nhôm chắn nắng hình hộp.png" 
- import pr9 from "@/assets/images/images/products/Nhôm Hệ Cửa.png" 
- import pr10 from "@/assets/images/images/products/Nhôm Ốp Ngoài Trời.png"
- import pr11 from "@/assets/images/images/products/Trần Nhôm.png" 
- import pr12 from "@/assets/images/images/products/Tấm Ốp Mặt Dựng.png" 
+import k1 from "@/assets/images/images/products/Kính Cường Lực.png" 
+import k2 from "@/assets/images/images/products/Kính Dán An Toàn.png" 
+ import k3 from "@/assets/images/images/products/Kính Hộp.png" 
+ import k4 from "@/assets/images/images/products/Kính Low - E.png" 
+ import k5 from "@/assets/images/images/products/Kính Màu.png" 
+ import k6 from "@/assets/images/images/products/Kính Phản Quang.png" 
+ import k7 from "@/assets/images/images/products/Kính Uốn Cong.png" 
+ import n1 from "@/assets/images/images/products/Lam nhôm chắn nắng hình hộp.png" 
+ import n2 from "@/assets/images/images/products/Nhôm Hệ Cửa.png" 
+ import n3 from "@/assets/images/images/products/Nhôm Ốp Ngoài Trời.png"
+ import n4 from "@/assets/images/images/products/Trần Nhôm.png" 
+ import n5 from "@/assets/images/images/products/Tấm Ốp Mặt Dựng.png" 
+ import n6 from "@/assets/images/images/products/Nhôm Billet.png" 
  import logo1 from "@/assets/images/images/products/Công Ty Cổ Phần Nhôm Việt Dũng.webp"
  import logo2 from "@/assets/images/images/products/logo Công Ty TNHH Nhôm Kính Không Gian.png"
  import logo3 from "@/assets/images/images/products/Logo Công Ty Cổ Phần TID.webp"
+ import logo4 from "@/assets/images/images/products/Logo Công Ty Nhôm Kính Mặt Dựng CAG.jpg"
+ import logo5 from "@/assets/images/images/products/Logo Công Ty Eurowindow.webp"
 
 
 export interface ShowcaseItem {
@@ -2695,18 +2698,12 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "2500237032",
     englishName: "VIETDUNG ALUMINIUM JOINT STOCK COMPANY",
     productShowcase: [
-      { name: "Kính Màu", image: pr1.src},
-      { name: "Kính Uống Công", image:pr2.src },
-      { name: "Trần Nhôm", image: pr3.src},
-      { name: "Nhôm Ống", image: pr4.src },
-      { name: "Kính Phản Quang", image: pr5.src },
-      { name: "Kính Low", image: pr6.src },
-      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
-      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
-      { name: "Kính Dán An Toàn", image: pr9.src },
-      { name: "Kính Cường Lực", image: pr10.src },
-      { name: "Nhôm Hệ Cửa", image: pr11.src },
-      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
+      { name: "Nhôm Màu", image: n1.src},
+      { name: "Nhôm Uống Công", image:n2.src },
+      { name: "Trần Nhôm", image: n3.src},
+      { name: "Nhôm Ống", image: n4.src },
+      { name: "Nhôm Phản Quang", image: n5.src },
+      { name: "Nhôm Billet", image: n6.src },
     ]
   },
   {
@@ -2740,18 +2737,19 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "0800345691",
     englishName: "EAST ASIA ALUMINUM COMPANY LIMITED",
     productShowcase: [
-      { name: "Kính Màu", image: pr1.src},
-      { name: "Kính Uống Công", image:pr2.src },
-      { name: "Trần Nhôm", image: pr3.src},
-      { name: "Nhôm Ống", image: pr4.src },
-      { name: "Kính Phản Quang", image: pr5.src },
-      { name: "Kính Low", image: pr6.src },
-      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
-      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
-      { name: "Kính Dán An Toàn", image: pr9.src },
-      { name: "Kính Cường Lực", image: pr10.src },
-      { name: "Nhôm Hệ Cửa", image: pr11.src },
-      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
+      { name: "Nhôm Billet", image: n6.src },
+      { name: "Nhôm Màu", image: n1.src},
+      { name: "Trần Nhôm", image: n3.src},
+      { name: "Nhôm Ống", image: n4.src },
+      { name: "Nhôm Phản Quang", image: n5.src },
+      { name: "Nhôm Uống Công", image:n2.src },
+      // { name: "Kính Low", image: pr6.src },
+      // { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
+      // { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
+      // { name: "Kính Dán An Toàn", image: pr9.src },
+      // { name: "Kính Cường Lực", image: pr10.src },
+      // { name: "Nhôm Hệ Cửa", image: pr11.src },
+      // { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
     ]
   },
   {
@@ -2785,18 +2783,24 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "0107935768",
     englishName: "GRANDO ALUMINIUM",
     productShowcase: [
-      { name: "Kính Màu", image: pr1.src},
-      { name: "Kính Uống Công", image:pr2.src },
-      { name: "Trần Nhôm", image: pr3.src},
-      { name: "Nhôm Ống", image: pr4.src },
-      { name: "Kính Phản Quang", image: pr5.src },
-      { name: "Kính Low", image: pr6.src },
-      { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
-      { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
-      { name: "Kính Dán An Toàn", image: pr9.src },
-      { name: "Kính Cường Lực", image: pr10.src },
-      { name: "Nhôm Hệ Cửa", image: pr11.src },
-      { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
+      { name: "Nhôm Uống Công", image:n2.src },
+      { name: "Nhôm Billet", image: n6.src },
+      { name: "Nhôm Màu", image: n1.src},
+      { name: "Trần Nhôm", image: n3.src},
+      { name: "Nhôm Phản Quang", image: n5.src },
+      { name: "Nhôm Ống", image: n4.src },
+      // { name: "Kính Màu", image: pr1.src},
+      // { name: "Kính Uống Công", image:pr2.src },
+      // { name: "Trần Nhôm", image: pr3.src},
+      // { name: "Nhôm Ống", image: pr4.src },
+      // { name: "Kính Phản Quang", image: pr5.src },
+      // { name: "Kính Low", image: pr6.src },
+      // { name: "Lam Nhôm Chắn Nắng Hình Hộp", image: pr7.src },
+      // { name: "Nhôm Ốp Ngoái Trời", image: pr8.src },
+      // { name: "Kính Dán An Toàn", image: pr9.src },
+      // { name: "Kính Cường Lực", image: pr10.src },
+      // { name: "Nhôm Hệ Cửa", image: pr11.src },
+      // { name: "Tấm Ốp Mặt Dựng", image: pr12.src },
     ]
   },
   {
@@ -3064,7 +3068,7 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     logo: "VG",
     brandLogoText: "VFG",
     brandSubText: "Kính Nổi VN",
-    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=600&h=400",
+    image: logo4.src,
     categories: ["Nguyên Vật Liệu"],
     subCategories: ["Nhôm - Kính"],
     nhomSanPhams: ["Kính xây dựng"],
@@ -3089,10 +3093,13 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "2300103345",
     englishName: "VIETNAM FLOAT GLASS COMPANY LIMITED",
     productShowcase: [
-      { name: "Kính nổi xây dựng trong suốt VFG", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính nổi màu hấp thụ nhiệt xanh lá VFG", image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính phản quang chống tia UV cao cấp", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Phôi kính nổi siêu trắng làm nội thất", image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=400&h=260" }
+    { name: "Kính Màu", image: k1.src},
+       { name: "Kính Uống Công", image:k2.src },
+      { name: "Kính Phản Quang", image: k5.src },
+       { name: "Kính Low", image: k6.src },
+       { name: "Nhôm Chống Tia UV", image: k7.src },
+       { name: "Kính Dán An Toàn", image: k4.src },
+       { name: "Kính Cường Lực", image: k3.src },
     ]
   },
   {
@@ -3101,7 +3108,7 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     logo: "CF",
     brandLogoText: "CFG",
     brandSubText: "Chu Lai Glass",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600&h=400",
+    image: logo5.src,
     categories: ["Nguyên Vật Liệu"],
     subCategories: ["Nhôm - Kính"],
     nhomSanPhams: ["Kính xây dựng"],
@@ -3126,10 +3133,13 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "4000438263",
     englishName: "CFG - CHU LAI FLOAT GLASS JOINT STOCK COMPANY",
     productShowcase: [
-      { name: "Kính nổi xây dựng siêu trắng Chu Lai", image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính nổi dán an toàn nhiều lớp CFG", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính bọc hộp cách âm cách nhiệt tốt", image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính cường lực tôi nhiệt độ cao CFG", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=260" }
+      { name: "Kính Màu", image: k1.src},
+      { name: "Kính Low", image: k6.src },
+      { name: "Kính Cường Lực", image: k3.src },
+      { name: "Kính Phản Quang", image: k5.src },
+      { name: "Nhôm Chống Tia UV", image: k7.src },
+      { name: "Kính Uống Công", image:k2.src },
+      { name: "Kính Dán An Toàn", image: k4.src },
     ]
   },
   {
@@ -3163,10 +3173,13 @@ const NEW_MATERIALS_SUPPLIERS: Supplier[] = [
     mst: "2300100471",
     englishName: "DAP CAU SHEET GLASS JOINT-STOCK COMPANY",
     productShowcase: [
-      { name: "Kính cường lực an toàn Đáp Cầu", image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính hộp cách âm cách nhiệt chân không", image: "https://images.unsplash.com/photo-1518174526364-7098e9fc7e60?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Gương soi cao cấp tráng bạc Đáp Cầu", image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=400&h=260" },
-      { name: "Kính hoa văn nghệ thuật trang trí nội thất", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=260" }
+      { name: "Kính Phản Quang", image: k5.src },
+      { name: "Kính Màu", image: k1.src},
+      { name: "Nhôm Chống Tia UV", image: k7.src },
+      { name: "Kính Dán An Toàn", image: k4.src },
+      { name: "Kính Low", image: k6.src },
+      { name: "Kính Cường Lực", image: k3.src },
+      { name: "Kính Uống Công", image:k2.src },
     ]
   },
   {
